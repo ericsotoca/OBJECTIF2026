@@ -1,1 +1,779 @@
-Coucou
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Préparation Mentale Awalé</title>
+    <style>
+        /* --- Styles Généraux --- */
+        :root {
+            --primary-color: #2c3e50; /* Bleu nuit */
+            --secondary-color: #3498db; /* Bleu clair */
+            --accent-color: #e74c3c; /* Rouge doux */
+            --light-bg: #ecf0f1; /* Gris très clair */
+            --text-color: #333;
+            --border-color: #bdc3c7; /* Gris moyen */
+            --success-color: #2ecc71; /* Vert */
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px; /* Base pour rem */
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding-bottom: 60px; /* Espace pour la nav fixe */
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease;
+            margin: 0.3rem;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #2980b9; /* Bleu plus foncé */
+        }
+
+        button:disabled {
+            background-color: #bdc3c7; /* Gris */
+            cursor: not-allowed;
+        }
+
+        textarea, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            background-color: white;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            position: relative; /* Pour le bouton de suppression */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 1rem auto;
+            padding: 1.5rem;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav button {
+            background: none;
+            color: var(--light-bg);
+            padding: 0.5rem 0.8rem;
+            font-size: 0.8rem;
+            text-align: center;
+            flex-grow: 1; /* Pour occuper l'espace */
+        }
+        
+        nav button.active {
+            color: var(--secondary-color);
+            font-weight: bold;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        /* --- Sections --- */
+        .section {
+            display: none; /* Caché par défaut */
+            padding-top: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block; /* Affiché si actif */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Module Pression --- */
+        .breathing-visualizer {
+            width: 100px;
+            height: 100px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            margin: 1rem auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: transform 2s ease-in-out, background-color 1s ease; /* Transition douce pour la taille */
+        }
+
+        #breathing-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        /* --- Module Confiance --- */
+        .success-item, .strength-item, .analysis-item {
+             position: relative;
+             padding-right: 40px; /* Espace pour le bouton */
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 1rem;
+            line-height: 25px; /* Centrer le X */
+            text-align: center;
+            cursor: pointer;
+            padding: 0;
+        }
+
+         .delete-btn:hover {
+            background-color: #c0392b; /* Rouge plus foncé */
+         }
+
+        /* --- Module Concentration --- */
+        #focus-timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary-color);
+        }
+         .timer-controls button {
+             margin: 0 5px;
+         }
+
+        /* --- Utilitaires --- */
+        .hidden {
+            display: none;
+        }
+         .center-text {
+             text-align: center;
+         }
+
+         /* --- Responsive --- */
+         @media (max-width: 600px) {
+            body {
+                padding-bottom: 70px; /* Plus d'espace pour nav sur petit écran */
+            }
+            nav button {
+                font-size: 0.7rem;
+                padding: 0.4rem;
+            }
+            .container {
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.2rem; }
+         }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="main-title">Accueil</h1>
+
+        <!-- Section Accueil -->
+        <section id="section-accueil" class="section active">
+            <h2>Bienvenue !</h2>
+            <p>Cette application est conçue pour vous aider à renforcer votre mental pour les compétitions d'Awalé.</p>
+            <p>Utilisez la navigation en bas pour accéder aux différents modules :</p>
+            <ul>
+                <li><strong>Pression :</strong> Techniques de respiration et visualisation.</li>
+                <li><strong>Confiance :</strong> Journal des succès et identification des forces.</li>
+                <li><strong>Résilience :</strong> Analyse constructive des défaites.</li>
+                <li><strong>Concentration :</strong> Minuteur de focus.</li>
+            </ul>
+            <hr style="margin: 1rem 0;">
+            <h3>Citation du jour (Exemple)</h3>
+            <blockquote id="quote-display">
+                "La force mentale distingue les champions."
+            </blockquote>
+        </section>
+
+        <!-- Section Gestion de la Pression -->
+        <section id="section-pression" class="section">
+            <h2>Gestion de la Pression</h2>
+
+            <h3>Respiration Guidée</h3>
+            <div class="center-text">
+                <button id="btn-breath-box">Respiration Carrée (4s)</button>
+                <button id="btn-breath-478">Respiration 4-7-8</button>
+                <button id="btn-breath-stop" disabled>Arrêter</button>
+            </div>
+            <div id="breathing-visualizer" class="breathing-visualizer">Prêt ?</div>
+            <div id="breathing-timer">00:00</div>
+            <p id="breathing-instruction" class="center-text"></p>
+
+            <hr style="margin: 1.5rem 0;">
+
+            <h3>Visualisation Positive</h3>
+            <p>Lisez ou écrivez vos scénarios de succès.</p>
+            <textarea id="visualization-text" rows="6" placeholder="Exemple : Je me vois calme et concentré, calculant précisément mes coups. Je prends l'avantage et gagne la partie avec sérénité..."></textarea>
+            <button id="btn-save-visualization">Sauvegarder ma visualisation</button>
+            <button id="btn-load-visualization">Charger ma visualisation</button>
+        </section>
+
+        <!-- Section Confiance en Soi -->
+        <section id="section-confiance" class="section">
+            <h2>Confiance en Soi</h2>
+
+            <h3>Journal des Succès</h3>
+            <p>Notez vos victoires, bons coups, moments de fierté.</p>
+            <textarea id="success-entry" rows="3" placeholder="Ex: Gagné contre X, réussi un Kroo difficile..."></textarea>
+            <button id="btn-add-success">Ajouter au Journal</button>
+            <h4>Mes Succès :</h4>
+            <ul id="success-list"></ul>
+
+            <hr style="margin: 1.5rem 0;">
+
+            <h3>Mes Points Forts</h3>
+            <p>Listez ce qui fait votre force à l'Awalé.</p>
+            <textarea id="strength-entry" rows="3" placeholder="Ex: Calcul rapide, Patience, Stratégie défensive..."></textarea>
+            <button id="btn-add-strength">Ajouter une Force</button>
+            <h4>Mes Forces :</h4>
+            <ul id="strength-list"></ul>
+        </section>
+
+        <!-- Section Résilience -->
+        <section id="section-resilience" class="section">
+            <h2>Résilience</h2>
+
+            <h3>Analyse Post-Défaite Constructive</h3>
+            <p>Analysez objectivement pour apprendre et rebondir.</p>
+            <form id="defeat-analysis-form">
+                <label for="analysis-opponent">Adversaire / Contexte :</label>
+                <input type="text" id="analysis-opponent" placeholder="Ex: Tournoi Y, Partie 3 vs Z">
+
+                <label for="analysis-positive">Qu'est-ce qui a bien fonctionné malgré tout ?</label>
+                <textarea id="analysis-positive" rows="2"></textarea>
+
+                <label for="analysis-keymoment">Moment clé / Erreur principale ?</label>
+                <textarea id="analysis-keymoment" rows="2"></textarea>
+
+                <label for="analysis-learning">Qu'ai-je appris ?</label>
+                <textarea id="analysis-learning" rows="2"></textarea>
+
+                <label for="analysis-next">Que ferai-je différemment ?</label>
+                <textarea id="analysis-next" rows="2"></textarea>
+
+                <button type="submit">Sauvegarder l'Analyse</button>
+            </form>
+            <h4>Mes Analyses :</h4>
+            <ul id="analysis-list"></ul>
+        </section>
+
+        <!-- Section Concentration -->
+        <section id="section-concentration" class="section">
+            <h2>Concentration & Endurance</h2>
+
+            <h3>Minuteur de Focus (Pomodoro)</h3>
+            <p>Travaillez par sessions concentrées.</p>
+            <div id="focus-timer-display">25:00</div>
+            <div class="center-text timer-controls">
+                <button id="btn-focus-start">Démarrer (25 min)</button>
+                <button id="btn-focus-pause">Pause</button>
+                <button id="btn-focus-reset">Réinitialiser</button>
+                <button id="btn-focus-short-break">Pause Courte (5 min)</button>
+                <button id="btn-focus-long-break">Pause Longue (15 min)</button>
+            </div>
+             <p id="focus-status" class="center-text" style="margin-top: 1rem; font-style: italic;"></p>
+        </section>
+
+    </div> <!-- Fin .container -->
+
+    <!-- Barre de Navigation Fixe en Bas -->
+    <nav id="bottom-nav">
+        <button data-section="accueil" class="active">Accueil</button>
+        <button data-section="pression">Pression</button>
+        <button data-section="confiance">Confiance</button>
+        <button data-section="resilience">Résilience</button>
+        <button data-section="concentration">Concentration</button>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const navButtons = document.querySelectorAll('#bottom-nav button');
+            const sections = document.querySelectorAll('.section');
+            const mainTitle = document.getElementById('main-title');
+
+            // Pression
+            const btnBreathBox = document.getElementById('btn-breath-box');
+            const btnBreath478 = document.getElementById('btn-breath-478');
+            const btnBreathStop = document.getElementById('btn-breath-stop');
+            const visualizer = document.getElementById('breathing-visualizer');
+            const breathTimerDisplay = document.getElementById('breathing-timer');
+            const breathInstruction = document.getElementById('breathing-instruction');
+            const visualizationText = document.getElementById('visualization-text');
+            const btnSaveVisualization = document.getElementById('btn-save-visualization');
+            const btnLoadVisualization = document.getElementById('btn-load-visualization');
+
+            // Confiance
+            const successEntry = document.getElementById('success-entry');
+            const btnAddSuccess = document.getElementById('btn-add-success');
+            const successList = document.getElementById('success-list');
+            const strengthEntry = document.getElementById('strength-entry');
+            const btnAddStrength = document.getElementById('btn-add-strength');
+            const strengthList = document.getElementById('strength-list');
+
+            // Résilience
+            const defeatForm = document.getElementById('defeat-analysis-form');
+            const analysisList = document.getElementById('analysis-list');
+            const analysisOpponent = document.getElementById('analysis-opponent');
+            const analysisPositive = document.getElementById('analysis-positive');
+            const analysisKeyMoment = document.getElementById('analysis-keymoment');
+            const analysisLearning = document.getElementById('analysis-learning');
+            const analysisNext = document.getElementById('analysis-next');
+
+
+            // Concentration
+            const focusTimerDisplay = document.getElementById('focus-timer-display');
+            const btnFocusStart = document.getElementById('btn-focus-start');
+            const btnFocusPause = document.getElementById('btn-focus-pause');
+            const btnFocusReset = document.getElementById('btn-focus-reset');
+            const btnFocusShortBreak = document.getElementById('btn-focus-short-break');
+            const btnFocusLongBreak = document.getElementById('btn-focus-long-break');
+            const focusStatus = document.getElementById('focus-status');
+
+            // --- State Variables ---
+            let breathInterval = null;
+            let breathTotalSeconds = 0;
+            let breathCycle = []; // [ { action: 'inspire', duration: 4 }, ... ]
+            let breathCurrentPhase = 0;
+            let breathPhaseTimer = 0;
+
+            let focusInterval = null;
+            let focusTotalSeconds = 25 * 60; // Default Pomodoro
+            let focusIsRunning = false;
+            let focusCurrentMode = 'Travail'; // Travail, Pause Courte, Pause Longue
+
+            // --- Local Storage Helpers ---
+            const STORAGE_KEYS = {
+                VISUALIZATION: 'awale_mental_visualization',
+                SUCCESSES: 'awale_mental_successes',
+                STRENGTHS: 'awale_mental_strengths',
+                ANALYSES: 'awale_mental_analyses'
+            };
+
+            function saveData(key, data) {
+                localStorage.setItem(key, JSON.stringify(data));
+            }
+
+            function loadData(key, defaultValue = []) {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : defaultValue;
+            }
+
+            // --- Navigation Logic ---
+            function setActiveSection(sectionId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === `section-${sectionId}`) {
+                        section.classList.add('active');
+                    }
+                });
+                navButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.section === sectionId) {
+                        button.classList.add('active');
+                        // Met à jour le titre principal
+                        mainTitle.textContent = button.textContent;
+                    }
+                });
+                // Scroll vers le haut de la page lors du changement de section
+                window.scrollTo(0, 0);
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const sectionId = button.dataset.section;
+                    setActiveSection(sectionId);
+                });
+            });
+
+            // --- Gestion de la Pression Logic ---
+            function stopBreathingExercise() {
+                clearInterval(breathInterval);
+                breathInterval = null;
+                visualizer.style.transform = 'scale(1)';
+                visualizer.textContent = 'Prêt ?';
+                visualizer.style.backgroundColor = 'var(--secondary-color)';
+                breathInstruction.textContent = '';
+                breathTimerDisplay.textContent = '00:00';
+                btnBreathBox.disabled = false;
+                btnBreath478.disabled = false;
+                btnBreathStop.disabled = true;
+            }
+
+            function updateBreathTimer() {
+                breathTotalSeconds++;
+                const minutes = Math.floor(breathTotalSeconds / 60);
+                const seconds = breathTotalSeconds % 60;
+                breathTimerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                // Gérer le cycle de respiration
+                if (breathCycle.length > 0) {
+                    breathPhaseTimer--;
+                    if (breathPhaseTimer <= 0) {
+                        // Passer à la phase suivante
+                        breathCurrentPhase = (breathCurrentPhase + 1) % breathCycle.length;
+                        const phase = breathCycle[breathCurrentPhase];
+                        breathPhaseTimer = phase.duration;
+                        breathInstruction.textContent = `${phase.action} (${phase.duration}s)`;
+
+                        // Animation simple
+                        if (phase.action.toLowerCase().includes('inspire')) {
+                            visualizer.style.transform = 'scale(1.2)';
+                            visualizer.style.backgroundColor = '#2ecc71'; // Vert
+                            visualizer.textContent = 'Inspirez';
+                        } else if (phase.action.toLowerCase().includes('expire')) {
+                            visualizer.style.transform = 'scale(0.8)';
+                            visualizer.style.backgroundColor = '#e74c3c'; // Rouge doux
+                            visualizer.textContent = 'Expirez';
+                        } else { // Hold / Retenir
+                            visualizer.style.transform = 'scale(1)';
+                            visualizer.style.backgroundColor = '#f39c12'; // Orange
+                            visualizer.textContent = 'Retenez';
+                        }
+                    }
+                }
+            }
+
+            function startBreathingExercise(cycle) {
+                stopBreathingExercise(); // Arrête l'exercice précédent s'il y en a un
+                breathCycle = cycle;
+                breathCurrentPhase = -1; // Commence avant la première phase pour initialiser correctement
+                breathPhaseTimer = 0;
+                breathTotalSeconds = 0;
+                btnBreathBox.disabled = true;
+                btnBreath478.disabled = true;
+                btnBreathStop.disabled = false;
+                updateBreathTimer(); // Appelle une fois pour démarrer le cycle immédiatement
+                breathInterval = setInterval(updateBreathTimer, 1000);
+            }
+
+            btnBreathBox.addEventListener('click', () => {
+                startBreathingExercise([
+                    { action: 'Inspirez', duration: 4 },
+                    { action: 'Retenez', duration: 4 },
+                    { action: 'Expirez', duration: 4 },
+                    { action: 'Retenez', duration: 4 }
+                ]);
+            });
+
+            btnBreath478.addEventListener('click', () => {
+                startBreathingExercise([
+                    { action: 'Inspirez', duration: 4 },
+                    { action: 'Retenez', duration: 7 },
+                    { action: 'Expirez', duration: 8 }
+                ]);
+            });
+
+            btnBreathStop.addEventListener('click', stopBreathingExercise);
+
+            // Visualisation
+            btnSaveVisualization.addEventListener('click', () => {
+                saveData(STORAGE_KEYS.VISUALIZATION, visualizationText.value);
+                alert('Visualisation sauvegardée !');
+            });
+
+            btnLoadVisualization.addEventListener('click', () => {
+                visualizationText.value = loadData(STORAGE_KEYS.VISUALIZATION, '');
+                 if(!visualizationText.value) {
+                     alert('Aucune visualisation sauvegardée trouvée.');
+                 }
+            });
+
+             // Charger la visualisation au démarrage de la section (si elle existe)
+             if (document.getElementById('section-pression')) { // Vérifie que l'élément existe
+                 visualizationText.value = loadData(STORAGE_KEYS.VISUALIZATION, '');
+             }
+
+
+            // --- Confiance Logic ---
+            function renderList(listElement, data, dataKey, itemClass) {
+                listElement.innerHTML = ''; // Clear existing items
+                data.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.classList.add(itemClass); // Ajoute une classe spécifique si besoin
+
+                    // Contenu de l'item (texte simple ou objet)
+                     if (typeof item === 'string') {
+                         li.textContent = item;
+                     } else if (typeof item === 'object' && item !== null) {
+                         // Pour l'analyse de défaite, affiche un résumé
+                          if (dataKey === STORAGE_KEYS.ANALYSES) {
+                            li.innerHTML = `<strong>${item.opponent || 'Analyse'} (${new Date(item.date).toLocaleDateString()}) :</strong><br>
+                                            Appris : <em>${item.learning || 'N/A'}</em>`;
+                         } else {
+                            // Fallback pour d'autres objets potentiels
+                            li.textContent = JSON.stringify(item).substring(0, 100) + '...';
+                         }
+
+                     }
+
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'X';
+                    deleteBtn.classList.add('delete-btn');
+                    deleteBtn.addEventListener('click', () => {
+                        if (confirm('Voulez-vous vraiment supprimer cet élément ?')) {
+                            data.splice(index, 1); // Remove item from array
+                            saveData(dataKey, data); // Save updated array
+                            renderList(listElement, data, dataKey, itemClass); // Re-render list
+                        }
+                    });
+                    li.appendChild(deleteBtn);
+                    listElement.appendChild(li);
+                });
+            }
+
+            // Succès
+            const successes = loadData(STORAGE_KEYS.SUCCESSES);
+            renderList(successList, successes, STORAGE_KEYS.SUCCESSES, 'success-item');
+
+            btnAddSuccess.addEventListener('click', () => {
+                const entry = successEntry.value.trim();
+                if (entry) {
+                    successes.push(entry);
+                    saveData(STORAGE_KEYS.SUCCESSES, successes);
+                    renderList(successList, successes, STORAGE_KEYS.SUCCESSES, 'success-item');
+                    successEntry.value = ''; // Clear input
+                } else {
+                    alert('Veuillez entrer un succès.');
+                }
+            });
+
+            // Forces
+            const strengths = loadData(STORAGE_KEYS.STRENGTHS);
+            renderList(strengthList, strengths, STORAGE_KEYS.STRENGTHS, 'strength-item');
+
+            btnAddStrength.addEventListener('click', () => {
+                const entry = strengthEntry.value.trim();
+                if (entry) {
+                    strengths.push(entry);
+                    saveData(STORAGE_KEYS.STRENGTHS, strengths);
+                    renderList(strengthList, strengths, STORAGE_KEYS.STRENGTHS, 'strength-item');
+                    strengthEntry.value = ''; // Clear input
+                } else {
+                    alert('Veuillez entrer une force.');
+                }
+            });
+
+
+             // --- Résilience Logic ---
+             const analyses = loadData(STORAGE_KEYS.ANALYSES);
+             renderList(analysisList, analyses, STORAGE_KEYS.ANALYSES, 'analysis-item');
+
+             defeatForm.addEventListener('submit', (e) => {
+                 e.preventDefault(); // Empêche le rechargement de la page
+
+                 const analysisData = {
+                    date: new Date().toISOString(), // Ajoute une date
+                    opponent: analysisOpponent.value.trim(),
+                    positive: analysisPositive.value.trim(),
+                    keyMoment: analysisKeyMoment.value.trim(),
+                    learning: analysisLearning.value.trim(),
+                    nextSteps: analysisNext.value.trim()
+                 };
+
+                 // Vérifie au moins qu'un champ est rempli (optionnel mais utile)
+                 if (!analysisData.opponent && !analysisData.positive && !analysisData.keyMoment && !analysisData.learning && !analysisData.nextSteps) {
+                    alert("Veuillez remplir au moins un champ de l'analyse.");
+                    return;
+                 }
+
+
+                 analyses.unshift(analysisData); // Ajoute au début de la liste
+                 saveData(STORAGE_KEYS.ANALYSES, analyses);
+                 renderList(analysisList, analyses, STORAGE_KEYS.ANALYSES, 'analysis-item');
+
+                 // Réinitialise le formulaire
+                 defeatForm.reset();
+
+                 alert("Analyse sauvegardée !");
+             });
+
+
+            // --- Concentration Logic ---
+             function formatTime(seconds) {
+                 const mins = Math.floor(seconds / 60);
+                 const secs = seconds % 60;
+                 return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+             }
+
+            function updateFocusTimer() {
+                if (focusTotalSeconds > 0) {
+                    focusTotalSeconds--;
+                    focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
+                } else {
+                    // Timer finished
+                    clearInterval(focusInterval);
+                    focusInterval = null;
+                    focusIsRunning = false;
+                    focusTimerDisplay.textContent = "00:00";
+                    focusStatus.textContent = `${focusCurrentMode} terminé !`;
+                    alert(`${focusCurrentMode} terminé !`);
+                    // Réactiver les boutons de démarrage
+                    enableFocusStartButtons();
+                    // Peut-être jouer un son ici (nécessite interaction utilisateur préalable)
+                    // try { new Audio('path/to/sound.mp3').play(); } catch(e) { console.warn("Audio playback failed", e); }
+                }
+            }
+
+             function startFocusTimer(durationSeconds, mode) {
+                 clearInterval(focusInterval); // Clear any existing timer
+                 focusTotalSeconds = durationSeconds;
+                 focusCurrentMode = mode;
+                 focusIsRunning = true;
+                 focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
+                 focusStatus.textContent = `${mode} en cours...`;
+                 focusInterval = setInterval(updateFocusTimer, 1000);
+                 // Désactiver les boutons de démarrage pendant que le timer tourne
+                 disableFocusStartButtons();
+             }
+
+             function pauseFocusTimer() {
+                 if (focusIsRunning) {
+                     clearInterval(focusInterval);
+                     focusInterval = null;
+                     focusIsRunning = false;
+                     focusStatus.textContent += " (En pause)";
+                 }
+             }
+
+             function resumeFocusTimer() {
+                 if (!focusIsRunning && focusTotalSeconds > 0 && !focusInterval) {
+                     focusIsRunning = true;
+                     focusStatus.textContent = `${focusCurrentMode} en cours...`;
+                     focusInterval = setInterval(updateFocusTimer, 1000);
+                 }
+             }
+
+             function resetFocusTimer(defaultSeconds = 25 * 60, defaultMode = 'Travail') {
+                 clearInterval(focusInterval);
+                 focusInterval = null;
+                 focusIsRunning = false;
+                 focusTotalSeconds = defaultSeconds;
+                 focusCurrentMode = defaultMode;
+                 focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
+                 focusStatus.textContent = "Prêt à démarrer.";
+                 enableFocusStartButtons();
+             }
+
+             function disableFocusStartButtons() {
+                 btnFocusStart.disabled = true;
+                 btnFocusShortBreak.disabled = true;
+                 btnFocusLongBreak.disabled = true;
+             }
+             function enableFocusStartButtons() {
+                 btnFocusStart.disabled = false;
+                 btnFocusShortBreak.disabled = false;
+                 btnFocusLongBreak.disabled = false;
+             }
+
+
+             btnFocusStart.addEventListener('click', () => startFocusTimer(25 * 60, 'Travail'));
+             btnFocusShortBreak.addEventListener('click', () => startFocusTimer(5 * 60, 'Pause Courte'));
+             btnFocusLongBreak.addEventListener('click', () => startFocusTimer(15 * 60, 'Pause Longue'));
+
+             btnFocusPause.addEventListener('click', () => {
+                 if (focusIsRunning) {
+                     pauseFocusTimer();
+                     btnFocusPause.textContent = 'Reprendre';
+                 } else if(focusTotalSeconds > 0){ // Ne pas reprendre si le temps est écoulé
+                     resumeFocusTimer();
+                     btnFocusPause.textContent = 'Pause';
+                 }
+             });
+
+             btnFocusReset.addEventListener('click', () => resetFocusTimer()); // Reset au Pomodoro par défaut
+
+             // Initialiser l'affichage du timer focus
+             resetFocusTimer();
+
+
+            // --- Initialisation ---
+            setActiveSection('accueil'); // Affiche la section accueil au chargement
+
+            // Optionnel: Définir une citation d'accueil aléatoire ou fixe
+            const quotes = [
+                "La force mentale distingue les champions.",
+                "La patience est une vertu clé à l'Awalé.",
+                "Chaque partie est une leçon.",
+                "Concentrez-vous sur le coup présent, pas sur l'erreur passée.",
+                "La confiance se construit à l'entraînement."
+            ];
+            const quoteDisplay = document.getElementById('quote-display');
+            if (quoteDisplay) {
+                quoteDisplay.textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+            }
+
+        }); // Fin DOMContentLoaded
+    </script>
+
+</body>
+</html>
