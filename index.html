@@ -3,362 +3,800 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Préparation Mentale Awalé</title>
+    <title>Coach Mental Awalé Pro</title>
     <style>
-        /* --- Styles Généraux --- */
+        /* --- Thèmes et Variables CSS --- */
         :root {
-            --primary-color: #2c3e50; /* Bleu nuit */
-            --secondary-color: #3498db; /* Bleu clair */
-            --accent-color: #e74c3c; /* Rouge doux */
-            --light-bg: #ecf0f1; /* Gris très clair */
-            --text-color: #333;
-            --border-color: #bdc3c7; /* Gris moyen */
-            --success-color: #2ecc71; /* Vert */
             --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-title: 'Trebuchet MS', Helvetica, sans-serif;
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
         }
 
-        * {
+        [data-theme="light"] {
+            --bg-primary: #f4f7f9; /* Blanc cassé */
+            --bg-secondary: #ffffff; /* Blanc pur */
+            --bg-nav: #2c3e50; /* Bleu nuit */
+            --text-primary: #333333;
+            --text-secondary: #555555;
+            --text-nav: #ecf0f1; /* Gris clair */
+            --text-nav-active: #3498db; /* Bleu clair */
+            --border-color: #dce4e8;
+            --primary-accent: #3498db; /* Bleu clair */
+            --secondary-accent: #2980b9; /* Bleu plus foncé */
+            --danger-accent: #e74c3c; /* Rouge doux */
+            --danger-accent-hover: #c0392b;
+            --success-accent: #2ecc71; /* Vert */
+            --warning-accent: #f39c12; /* Orange */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #2c3e50; /* Bleu nuit */
+            --bg-secondary: #34495e; /* Bleu/gris foncé */
+            --bg-nav: #1f2b38; /* Plus foncé */
+            --text-primary: #ecf0f1; /* Gris clair */
+            --text-secondary: #bdc3c7; /* Gris moyen */
+            --text-nav: #bdc3c7;
+            --text-nav-active: #3498db; /* Bleu clair */
+            --border-color: #4a627a;
+            --primary-accent: #3498db;
+            --secondary-accent: #5dade2; /* Bleu plus clair pour hover */
+            --danger-accent: #e74c3c;
+            --danger-accent-hover: #ff6b5a;
+            --success-accent: #2ecc71;
+            --warning-accent: #f1c40f; /* Jaune */
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- Réinitialisation et Styles de Base --- */
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
         html {
-            font-size: 16px; /* Base pour rem */
+            font-size: 16px;
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: var(--font-main);
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-bg);
-            padding-bottom: 60px; /* Espace pour la nav fixe */
+            line-height: 1.7;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            padding-top: 70px; /* Espace pour la nav fixe */
         }
 
-        h1, h2, h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.8rem;
+        h1, h2, h3, h4 {
+            font-family: var(--font-title);
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        h1 { font-size: 2rem; text-align: center; margin-top: 1rem;}
+        h2 { font-size: 1.6rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.3rem; color: var(--secondary-accent); }
+        h4 { font-size: 1.1rem; color: var(--text-secondary); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
         }
 
-        button {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.2rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: background-color 0.2s ease;
-            margin: 0.3rem;
+        a {
+            color: var(--primary-accent);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
         }
-
-        button:hover:not(:disabled) {
-            background-color: #2980b9; /* Bleu plus foncé */
-        }
-
-        button:disabled {
-            background-color: #bdc3c7; /* Gris */
-            cursor: not-allowed;
-        }
-
-        textarea, input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 0.6rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            margin-bottom: 0.8rem;
-            font-family: inherit;
-            font-size: 1rem;
+        a:hover {
+            color: var(--secondary-accent);
+            text-decoration: underline;
         }
 
         ul {
             list-style: none;
             padding-left: 0;
+            margin-bottom: 1rem;
         }
 
-        li {
-            background-color: white;
-            padding: 0.8rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            position: relative; /* Pour le bouton de suppression */
-        }
-
+        /* --- Conteneurs et Mise en Page --- */
         .container {
-            max-width: 800px;
-            margin: 1rem auto;
-            padding: 1.5rem;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            max-width: 900px;
+            margin: 1.5rem auto;
+            padding: 2rem;
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: background-color var(--transition-speed) ease;
         }
 
-        /* --- Navigation --- */
-        nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--primary-color);
-            display: flex;
-            justify-content: space-around;
-            padding: 0.5rem 0;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-
-        nav button {
-            background: none;
-            color: var(--light-bg);
-            padding: 0.5rem 0.8rem;
-            font-size: 0.8rem;
-            text-align: center;
-            flex-grow: 1; /* Pour occuper l'espace */
-        }
-        
-        nav button.active {
-            color: var(--secondary-color);
-            font-weight: bold;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-
-        /* --- Sections --- */
         .section {
             display: none; /* Caché par défaut */
             padding-top: 1rem;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.6s ease-in-out;
         }
-
         .section.active {
-            display: block; /* Affiché si actif */
+            display: block;
         }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Module Pression --- */
-        .breathing-visualizer {
-            width: 100px;
-            height: 100px;
-            background-color: var(--secondary-color);
-            border-radius: 50%;
-            margin: 1rem auto;
+        /* --- Navigation Supérieure --- */
+        nav#top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-nav);
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            z-index: 1000;
             display: flex;
-            justify-content: center;
+            justify-content: space-between; /* Ajusté pour le toggle */
             align-items: center;
-            color: white;
+            flex-wrap: wrap; /* Pour les petits écrans */
+            transition: background-color var(--transition-speed) ease;
+        }
+        .nav-links {
+             display: flex;
+             flex-wrap: wrap;
+        }
+
+        nav#top-nav button.nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-nav);
+            padding: 0.6rem 0.9rem;
+            margin: 0.2rem; /* Espacement */
             font-size: 0.9rem;
-            text-align: center;
-            transition: transform 2s ease-in-out, background-color 1s ease; /* Transition douce pour la taille */
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            position: relative; /* Pour le pseudo-élément */
+            overflow: hidden;
         }
 
-        #breathing-timer {
-            font-size: 1.5rem;
+        nav#top-nav button.nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--text-nav-active);
+            transition: width var(--transition-speed) ease;
+        }
+
+        nav#top-nav button.nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        nav#top-nav button.nav-btn.active {
+            color: var(--text-nav-active);
             font-weight: bold;
+        }
+         nav#top-nav button.nav-btn.active::after {
+            width: 70%; /* Soulignement pour l'actif */
+         }
+
+        /* --- Boutons et Formulaires --- */
+        button, .button {
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color var(--transition-speed) ease, transform 0.1s ease;
+            margin: 0.5rem 0.5rem 0.5rem 0; /* Espacement */
+            display: inline-block; /* Pour les liens stylés comme boutons */
             text-align: center;
-            margin-top: 0.5rem;
-            color: var(--primary-color);
+            vertical-align: middle;
+        }
+        button:hover:not(:disabled), .button:hover {
+            background-color: var(--secondary-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        button:active:not(:disabled), .button:active {
+             transform: translateY(0px);
         }
 
-        /* --- Module Confiance --- */
-        .success-item, .strength-item, .analysis-item {
-             position: relative;
-             padding-right: 40px; /* Espace pour le bouton */
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        button.secondary { background-color: #7f8c8d; }
+        button.secondary:hover:not(:disabled) { background-color: #95a5a6; }
+        button.danger { background-color: var(--danger-accent); }
+        button.danger:hover:not(:disabled) { background-color: var(--danger-accent-hover); }
+        button.success { background-color: var(--success-accent); }
+        button.success:hover:not(:disabled) { background-color: #27ae60; }
+
+
+        textarea, input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: var(--bg-secondary); /* Pour thème sombre */
+            color: var(--text-primary); /* Pour thème sombre */
+            transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease;
+        }
+        textarea:focus, input:focus, select:focus {
+             outline: none;
+             border-color: var(--primary-accent);
+             box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Bleu clair */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--text-secondary);
+        }
+
+        /* --- Listes Stylées --- */
+        .styled-list li {
+            background-color: var(--bg-primary); /* Légèrement différent du fond principal */
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--primary-accent);
+            border-radius: var(--border-radius);
+            margin-bottom: 0.8rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            word-wrap: break-word; /* Pour les longs textes */
+            overflow: hidden; /* Cache le texte trop long */
+        }
+
+         .list-item-content {
+            flex-grow: 1;
+            margin-right: 1rem; /* Espace avant les boutons */
+            overflow: hidden;
+             text-overflow: ellipsis;
+             /* white-space: nowrap; */ /* Optionnel: force une seule ligne */
+         }
+         .list-item-content strong { color: var(--primary-accent); }
+         .list-item-content em { color: var(--text-secondary); font-size: 0.9em; }
+
+
+        .list-item-actions button {
+            padding: 0.3rem 0.6rem; /* Petits boutons */
+            font-size: 0.8rem;
+            margin-left: 0.3rem;
         }
 
         .delete-btn {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            font-size: 1rem;
-            line-height: 25px; /* Centrer le X */
-            text-align: center;
-            cursor: pointer;
-            padding: 0;
+            background-color: var(--danger-accent);
+            min-width: 30px; /* Taille fixe */
         }
-
          .delete-btn:hover {
-            background-color: #c0392b; /* Rouge plus foncé */
+            background-color: var(--danger-accent-hover);
+         }
+        .complete-btn {
+            background-color: var(--success-accent);
+            min-width: 30px;
+        }
+         .complete-btn:hover {
+            background-color: #27ae60;
+         }
+         .styled-list li.completed {
+             border-left-color: var(--success-accent);
+             opacity: 0.7;
+         }
+         .styled-list li.completed .list-item-content {
+             text-decoration: line-through;
          }
 
-        /* --- Module Concentration --- */
+
+        /* --- Module Pression: Respiration --- */
+        .breathing-controls { text-align: center; margin-bottom: 1.5rem; }
+        .breathing-controls button { margin: 0.5rem; }
+
+        #breathing-visualizer {
+            width: 150px;
+            height: 150px;
+            background-color: var(--primary-accent);
+            border-radius: 50%;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            transition: transform 1.5s ease-in-out, background-color 1s ease;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+        }
+        #breathing-instruction { font-weight: bold; font-size: 1.1rem; margin-bottom: 0.3rem; }
+        #breathing-timer { font-size: 1.8rem; font-weight: bold; color: var(--secondary-accent); margin-top: 1rem; text-align: center; }
+
+        /* --- Module Concentration: Pomodoro --- */
+        .pomodoro-explanation {
+            background-color: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
         #focus-timer-display {
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: bold;
             text-align: center;
-            margin: 1rem 0;
-            color: var(--primary-color);
+            margin: 1.5rem 0;
+            color: var(--primary-accent);
+            font-family: 'Courier New', Courier, monospace; /* Police différente pour le temps */
+        }
+        .timer-controls {
+            text-align: center;
+            margin-bottom: 1rem;
         }
          .timer-controls button {
-             margin: 0 5px;
+             margin: 0.5rem; /* Plus d'espace */
+             min-width: 120px; /* Largeur minimale */
          }
+        #focus-status {
+            text-align: center;
+            margin-top: 1rem;
+            font-style: italic;
+            font-weight: bold;
+            color: var(--secondary-accent);
+            min-height: 1.5em; /* Evite les sauts de layout */
+        }
+
+        /* --- Module Concentration: Jeu --- */
+        #concentration-game-area {
+            width: 100%;
+            height: 300px;
+            background-color: var(--bg-primary);
+            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
+            position: relative;
+            overflow: hidden; /* Important pour positionner la cible */
+            cursor: crosshair;
+        }
+        #game-target {
+            width: 40px;
+            height: 40px;
+            background-color: var(--danger-accent);
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            display: none; /* Caché au début */
+            transition: background-color 0.2s ease;
+             box-shadow: 0 0 10px var(--danger-accent);
+        }
+         #game-target:hover {
+             background-color: var(--danger-accent-hover);
+         }
+        #game-info { text-align: center; margin-top: 1rem; font-weight: bold; }
+
+
+         /* --- Module Humeur --- */
+         .mood-tracker {
+            text-align: center;
+            margin-bottom: 1.5rem;
+         }
+         .mood-options button {
+            font-size: 1.5rem; /* Emojis plus gros */
+            padding: 0.5rem;
+            background: none;
+            border: 2px solid transparent;
+            border-radius: 50%;
+             margin: 0 0.5rem;
+            transition: border-color var(--transition-speed);
+         }
+         .mood-options button:hover {
+            transform: scale(1.1);
+         }
+         .mood-options button.selected {
+             border-color: var(--primary-accent);
+             box-shadow: 0 0 10px var(--primary-accent);
+         }
+
+
+        /* --- Theme Toggle --- */
+        #theme-toggle {
+            background: none;
+            border: 1px solid var(--text-nav);
+            color: var(--text-nav);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed) ease;
+        }
+        #theme-toggle:hover {
+             background-color: var(--primary-accent);
+             border-color: var(--primary-accent);
+             color: white;
+        }
 
         /* --- Utilitaires --- */
-        .hidden {
-            display: none;
-        }
-         .center-text {
-             text-align: center;
-         }
+        .hidden { display: none; }
+        .center-text { text-align: center; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
 
-         /* --- Responsive --- */
-         @media (max-width: 600px) {
-            body {
-                padding-bottom: 70px; /* Plus d'espace pour nav sur petit écran */
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            body { padding-top: 100px; /* Plus d'espace si la nav s'étend */ }
+            .container { padding: 1.5rem; margin: 1rem; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            nav#top-nav { padding: 0.5rem; justify-content: center; } /* Centre les éléments sur petit écran */
+             .nav-links { justify-content: center; width: 100%;}
+            #theme-toggle { /* Position peut changer si besoin */
+                 margin-top: 0.5rem;
             }
-            nav button {
-                font-size: 0.7rem;
-                padding: 0.4rem;
-            }
-            .container {
-                margin: 0.5rem;
-                padding: 1rem;
-            }
-            h1 { font-size: 1.5rem; }
-            h2 { font-size: 1.2rem; }
+            .styled-list li { flex-direction: column; align-items: flex-start; }
+            .list-item-actions { margin-top: 0.5rem; width: 100%; text-align: right; }
+            .list-item-content { margin-right: 0; /* Prend toute la largeur */ }
+        }
+         @media (max-width: 480px) {
+             body { padding-top: 120px; }
+             h1 { font-size: 1.6rem; }
+             button, .button { width: 100%; margin: 0.5rem 0; /* Boutons pleine largeur */ }
+             .timer-controls button { min-width: auto; }
+             #focus-timer-display { font-size: 3rem; }
+             #breathing-visualizer { width: 120px; height: 120px; }
          }
 
     </style>
 </head>
-<body>
+<body data-theme="light"> <!-- Thème par défaut -->
 
-    <div class="container">
+    <!-- Navigation Principale -->
+    <nav id="top-nav">
+        <div class="nav-links">
+             <button class="nav-btn" data-section="accueil">🏠 Accueil</button>
+             <button class="nav-btn" data-section="pression">🧘 Pression</button>
+             <button class="nav-btn" data-section="confiance">💪 Confiance</button>
+             <button class="nav-btn" data-section="resilience"> Rési résilience</button> <!-- Rési -> Résilience -->
+             <button class="nav-btn" data-section="concentration">🎯 Concentration</button>
+             <button class="nav-btn" data-section="objectifs">🏁 Objectifs</button>
+             <button class="nav-btn" data-section="affirmations">✨ Affirmations</button>
+             <button class="nav-btn" data-section="humeur">😊 Humeur</button>
+             <button class="nav-btn" data-section="aide">❓ Aide</button>
+             <button class="nav-btn" data-section="parametres">⚙️ Paramètres</button>
+        </div>
+         <button id="theme-toggle">☀️ / 🌙</button>
+    </nav>
+
+    <main class="container">
         <h1 id="main-title">Accueil</h1>
 
-        <!-- Section Accueil -->
+        <!-- ========== Section Accueil ========== -->
         <section id="section-accueil" class="section active">
-            <h2>Bienvenue !</h2>
-            <p>Cette application est conçue pour vous aider à renforcer votre mental pour les compétitions d'Awalé.</p>
-            <p>Utilisez la navigation en bas pour accéder aux différents modules :</p>
+            <h2>Bienvenue sur votre Coach Mental Awalé Pro !</h2>
+            <p>Cette application est votre partenaire pour aiguiser votre esprit et aborder vos compétitions d'Awalé avec sérénité et détermination.</p>
+            <p>Explorez les différentes sections via le menu ci-dessus pour accéder à des outils et exercices ciblés :</p>
             <ul>
-                <li><strong>Pression :</strong> Techniques de respiration et visualisation.</li>
-                <li><strong>Confiance :</strong> Journal des succès et identification des forces.</li>
-                <li><strong>Résilience :</strong> Analyse constructive des défaites.</li>
-                <li><strong>Concentration :</strong> Minuteur de focus.</li>
+                <li>🧘 <strong>Gestion de la Pression :</strong> Apprenez à respirer et à visualiser pour rester calme.</li>
+                <li>💪 <strong>Confiance en Soi :</strong> Renforcez votre assurance en reconnaissant vos succès et forces.</li>
+                <li> Rési <strong>Résilience :</strong> Transformez les défaites en opportunités d'apprentissage.</li>
+                <li>🎯 <strong>Concentration :</strong> Améliorez votre focus avec le minuteur Pomodoro et des exercices.</li>
+                <li>🏁 <strong>Objectifs :</strong> Définissez et suivez vos objectifs de préparation mentale.</li>
+                <li>✨ <strong>Affirmations :</strong> Cultivez un état d'esprit positif.</li>
+                <li>😊 <strong>Suivi d'Humeur :</strong> Prenez conscience de votre état mental au fil du temps.</li>
+                <li>❓ <strong>Aide :</strong> Comprenez le fonctionnement de chaque module.</li>
+                 <li>⚙️ <strong>Paramètres :</strong> Gérez vos données et préférences.</li>
             </ul>
-            <hr style="margin: 1rem 0;">
-            <h3>Citation du jour (Exemple)</h3>
-            <blockquote id="quote-display">
-                "La force mentale distingue les champions."
+            <hr class="mt-2 mb-2">
+            <h3>Pensée du Jour :</h3>
+            <blockquote id="quote-display" style="font-style: italic; border-left: 3px solid var(--primary-accent); padding-left: 1rem;">
+                "Le mental est le muscle le plus important dans les jeux de réflexion."
             </blockquote>
         </section>
 
-        <!-- Section Gestion de la Pression -->
+        <!-- ========== Section Gestion de la Pression ========== -->
         <section id="section-pression" class="section">
-            <h2>Gestion de la Pression</h2>
+            <h2>🧘 Gestion de la Pression</h2>
+            <p>Maîtrisez votre calme intérieur pour performer sous pression.</p>
 
             <h3>Respiration Guidée</h3>
-            <div class="center-text">
-                <button id="btn-breath-box">Respiration Carrée (4s)</button>
-                <button id="btn-breath-478">Respiration 4-7-8</button>
-                <button id="btn-breath-stop" disabled>Arrêter</button>
+            <p>Choisissez un exercice pour recentrer votre attention et calmer votre système nerveux. Cliquez sur un bouton pour démarrer.</p>
+            <div class="breathing-controls">
+                <button id="btn-breath-box" class="secondary">Carrée (4-4-4-4)</button>
+                <button id="btn-breath-478" class="secondary">Relaxante (4-7-8)</button>
+                <button id="btn-breath-stop" class="danger" disabled>Arrêter</button>
             </div>
-            <div id="breathing-visualizer" class="breathing-visualizer">Prêt ?</div>
+            <div id="breathing-visualizer">
+                <span id="breathing-instruction">Prêt ?</span>
+            </div>
             <div id="breathing-timer">00:00</div>
-            <p id="breathing-instruction" class="center-text"></p>
 
-            <hr style="margin: 1.5rem 0;">
+            <hr class="mt-2 mb-2">
 
             <h3>Visualisation Positive</h3>
-            <p>Lisez ou écrivez vos scénarios de succès.</p>
-            <textarea id="visualization-text" rows="6" placeholder="Exemple : Je me vois calme et concentré, calculant précisément mes coups. Je prends l'avantage et gagne la partie avec sérénité..."></textarea>
-            <button id="btn-save-visualization">Sauvegarder ma visualisation</button>
-            <button id="btn-load-visualization">Charger ma visualisation</button>
+            <p>Créez ou chargez un scénario mental de succès pour renforcer votre confiance et préparer votre esprit à la victoire.</p>
+            <label for="visualization-text">Mon Scénario de Visualisation :</label>
+            <textarea id="visualization-text" rows="7" placeholder="Décrivez une partie idéale : votre calme, votre concentration, vos bons coups, le sentiment de maîtrise et de succès..."></textarea>
+            <button id="btn-save-visualization" class="success">💾 Sauvegarder</button>
+            <button id="btn-load-visualization">🔄 Charger</button>
         </section>
 
-        <!-- Section Confiance en Soi -->
+        <!-- ========== Section Confiance en Soi ========== -->
         <section id="section-confiance" class="section">
-            <h2>Confiance en Soi</h2>
+            <h2>💪 Confiance en Soi</h2>
+            <p>Nourrissez votre confiance en reconnaissant vos accomplissements et vos qualités.</p>
 
             <h3>Journal des Succès</h3>
-            <p>Notez vos victoires, bons coups, moments de fierté.</p>
-            <textarea id="success-entry" rows="3" placeholder="Ex: Gagné contre X, réussi un Kroo difficile..."></textarea>
-            <button id="btn-add-success">Ajouter au Journal</button>
-            <h4>Mes Succès :</h4>
-            <ul id="success-list"></ul>
+            <p>Chaque victoire, même petite, compte. Notez-les ici.</p>
+            <label for="success-entry">Nouveau Succès / Bon coup / Fierté :</label>
+            <textarea id="success-entry" rows="3" placeholder="Ex: J'ai bien défendu une case faible contre M... / J'ai gardé mon calme après une erreur..."></textarea>
+            <button id="btn-add-success" class="success">➕ Ajouter au Journal</button>
+            <h4 class="mt-1">Mes Succès Enregistrés :</h4>
+            <ul id="success-list" class="styled-list">Chargement...</ul>
 
-            <hr style="margin: 1.5rem 0;">
+            <hr class="mt-2 mb-2">
 
-            <h3>Mes Points Forts</h3>
-            <p>Listez ce qui fait votre force à l'Awalé.</p>
-            <textarea id="strength-entry" rows="3" placeholder="Ex: Calcul rapide, Patience, Stratégie défensive..."></textarea>
-            <button id="btn-add-strength">Ajouter une Force</button>
-            <h4>Mes Forces :</h4>
-            <ul id="strength-list"></ul>
+            <h3>Inventaire de Mes Forces</h3>
+            <p>Identifiez et rappelez-vous de vos atouts spécifiques à l'Awalé.</p>
+            <label for="strength-entry">Ajouter une Force :</label>
+            <textarea id="strength-entry" rows="3" placeholder="Ex: Calcul rapide des Krou, vision à long terme, gestion du temps..."></textarea>
+            <button id="btn-add-strength" class="success">➕ Ajouter une Force</button>
+            <h4 class="mt-1">Mes Forces Identifiées :</h4>
+            <ul id="strength-list" class="styled-list">Chargement...</ul>
         </section>
 
-        <!-- Section Résilience -->
+        <!-- ========== Section Résilience ========== -->
         <section id="section-resilience" class="section">
-            <h2>Résilience</h2>
+            <h2> Rési Résilience</h2> <!-- Rési -> Résilience -->
+            <p>Apprenez de chaque partie, surtout des défaites, pour revenir plus fort.</p>
 
-            <h3>Analyse Post-Défaite Constructive</h3>
-            <p>Analysez objectivement pour apprendre et rebondir.</p>
+            <h3>Analyse Constructive Post-Partie</h3>
+            <p>Utilisez ce formulaire pour analyser une partie (gagnée ou perdue) de manière objective.</p>
             <form id="defeat-analysis-form">
-                <label for="analysis-opponent">Adversaire / Contexte :</label>
-                <input type="text" id="analysis-opponent" placeholder="Ex: Tournoi Y, Partie 3 vs Z">
+                 <label for="analysis-date">Date de la partie :</label>
+                 <input type="date" id="analysis-date" required>
 
-                <label for="analysis-positive">Qu'est-ce qui a bien fonctionné malgré tout ?</label>
-                <textarea id="analysis-positive" rows="2"></textarea>
+                 <label for="analysis-opponent">Adversaire / Contexte :</label>
+                 <input type="text" id="analysis-opponent" placeholder="Ex: Tournoi Y, Partie 3 vs Z / Entraînement">
 
-                <label for="analysis-keymoment">Moment clé / Erreur principale ?</label>
-                <textarea id="analysis-keymoment" rows="2"></textarea>
+                 <label for="analysis-result">Résultat (Optionnel) :</label>
+                 <input type="text" id="analysis-result" placeholder="Ex: Victoire, Défaite, Nulle / Score">
 
-                <label for="analysis-learning">Qu'ai-je appris ?</label>
-                <textarea id="analysis-learning" rows="2"></textarea>
+                 <label for="analysis-positive">✅ Points Positifs / Ce qui a bien fonctionné :</label>
+                 <textarea id="analysis-positive" rows="3"></textarea>
 
-                <label for="analysis-next">Que ferai-je différemment ?</label>
-                <textarea id="analysis-next" rows="2"></textarea>
+                 <label for="analysis-keymoment">🔑 Moment(s) Clé(s) / Point(s) à améliorer :</label>
+                 <textarea id="analysis-keymoment" rows="3"></textarea>
 
-                <button type="submit">Sauvegarder l'Analyse</button>
+                 <label for="analysis-learning">💡 Principal Apprentissage / Leçon Retenue :</label>
+                 <textarea id="analysis-learning" rows="3"></textarea>
+
+                 <label for="analysis-next">🚀 Actions Concrètes pour la Prochaine Fois :</label>
+                 <textarea id="analysis-next" rows="3"></textarea>
+
+                <button type="submit" class="success">💾 Sauvegarder l'Analyse</button>
+                <button type="reset" class="secondary">Effacer le Formulaire</button>
             </form>
-            <h4>Mes Analyses :</h4>
-            <ul id="analysis-list"></ul>
+            <h4 class="mt-2">Mes Analyses Précédentes :</h4>
+            <ul id="analysis-list" class="styled-list">Chargement...</ul>
         </section>
 
-        <!-- Section Concentration -->
+        <!-- ========== Section Concentration ========== -->
         <section id="section-concentration" class="section">
-            <h2>Concentration & Endurance</h2>
+            <h2>🎯 Concentration & Endurance Mentale</h2>
+            <p>Entraînez votre capacité à rester focalisé pendant de longues périodes.</p>
 
-            <h3>Minuteur de Focus (Pomodoro)</h3>
-            <p>Travaillez par sessions concentrées.</p>
-            <div id="focus-timer-display">25:00</div>
-            <div class="center-text timer-controls">
-                <button id="btn-focus-start">Démarrer (25 min)</button>
-                <button id="btn-focus-pause">Pause</button>
-                <button id="btn-focus-reset">Réinitialiser</button>
-                <button id="btn-focus-short-break">Pause Courte (5 min)</button>
-                <button id="btn-focus-long-break">Pause Longue (15 min)</button>
-            </div>
-             <p id="focus-status" class="center-text" style="margin-top: 1rem; font-style: italic;"></p>
+             <h3>Minuteur de Focus (Technique Pomodoro)</h3>
+             <div class="pomodoro-explanation">
+                 <p><strong>Comment ça marche ?</strong> La technique Pomodoro aide à maintenir une concentration élevée en alternant des périodes de travail intense avec de courtes pauses.</p>
+                 <ol>
+                     <li>Choisissez une tâche (ex: étudier une ouverture, analyser une partie).</li>
+                     <li>Lancez le minuteur "Travail" (typiquement 25 min).</li>
+                     <li>Travaillez intensément sur la tâche, sans interruption.</li>
+                     <li>Quand le minuteur sonne, prenez une pause courte (5 min).</li>
+                     <li>Après 4 "Pomodoros" (cycles travail/pause courte), prenez une pause plus longue (15-30 min).</li>
+                 </ol>
+                 <p>Utilisez les boutons ci-dessous pour gérer vos sessions.</p>
+             </div>
+
+             <div id="focus-timer-display">25:00</div>
+             <div class="timer-controls">
+                 <button id="btn-focus-start" title="Démarrer une session de travail de 25 min">💼 Travail (25m)</button>
+                 <button id="btn-focus-pause" title="Mettre en pause ou reprendre le minuteur">⏯️ Pause/Rep.</button>
+                 <button id="btn-focus-reset" class="secondary" title="Réinitialiser le minuteur à 25 min">🔄 Reset</button>
+                 <br> <!-- Force un retour ligne pour les pauses -->
+                 <button id="btn-focus-short-break" class="success" title="Démarrer une pause courte de 5 min">☕ Pause (5m)</button>
+                 <button id="btn-focus-long-break" class="success" title="Démarrer une pause longue de 15 min">🚶 Pause Longue (15m)</button>
+             </div>
+             <div id="focus-status">Prêt à démarrer une session de travail.</div>
+
+             <hr class="mt-2 mb-2">
+
+             <h3>Mini-Jeu de Concentration : Cible Rapide</h3>
+             <p>Testez et améliorez votre vitesse de réaction et votre focus visuel. Cliquez sur la cible rouge dès qu'elle apparaît !</p>
+             <button id="btn-start-game" class="secondary">🚀 Lancer le Jeu (10 cibles)</button>
+             <div id="concentration-game-area">
+                 <div id="game-target"></div>
+             </div>
+             <div id="game-info">Score : 0 | Temps moyen : N/A ms</div>
+
         </section>
 
-    </div> <!-- Fin .container -->
+        <!-- ========== Section Objectifs ========== -->
+        <section id="section-objectifs" class="section">
+            <h2>🏁 Objectifs Mentaux</h2>
+            <p>Définissez des objectifs clairs pour votre préparation mentale.</p>
+             <label for="goal-entry">Nouvel Objectif :</label>
+            <textarea id="goal-entry" rows="3" placeholder="Ex: Méditer 5 min avant chaque session d'entraînement / Analyser 3 de mes défaites cette semaine / Rester positif même si je perds des graines en début de partie..."></textarea>
+            <button id="btn-add-goal" class="success">➕ Ajouter l'Objectif</button>
+             <h4 class="mt-1">Mes Objectifs Actuels :</h4>
+            <ul id="goal-list" class="styled-list">Chargement...</ul>
+        </section>
 
-    <!-- Barre de Navigation Fixe en Bas -->
-    <nav id="bottom-nav">
-        <button data-section="accueil" class="active">Accueil</button>
-        <button data-section="pression">Pression</button>
-        <button data-section="confiance">Confiance</button>
-        <button data-section="resilience">Résilience</button>
-        <button data-section="concentration">Concentration</button>
-    </nav>
+        <!-- ========== Section Affirmations ========== -->
+        <section id="section-affirmations" class="section">
+            <h2>✨ Affirmations Positives</h2>
+            <p>Répétez ces phrases pour cultiver un état d'esprit fort et positif.</p>
+            <div id="affirmation-display" style="font-size: 1.4rem; font-style: italic; text-align: center; margin: 2rem 0; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); background-color: var(--bg-primary);">
+                "Chargement d'une affirmation..."
+            </div>
+            <div class="center-text">
+                <button id="btn-next-affirmation">🔄 Autre Affirmation</button>
+            </div>
+
+            <hr class="mt-2 mb-2">
+
+            <h3>Mes Affirmations Personnalisées</h3>
+             <label for="affirmation-entry">Ajouter une affirmation personnelle :</label>
+            <textarea id="affirmation-entry" rows="2" placeholder="Ex: Je suis capable de calculs complexes / Chaque partie m'apprend quelque chose..."></textarea>
+            <button id="btn-add-affirmation" class="success">➕ Ajouter</button>
+            <h4 class="mt-1">Mes Affirmations :</h4>
+            <ul id="affirmation-list" class="styled-list">Chargement...</ul>
+        </section>
+
+        <!-- ========== Section Humeur ========== -->
+        <section id="section-humeur" class="section">
+             <h2>😊 Suivi d'Humeur & Focus</h2>
+             <p>Prenez un instant pour évaluer votre état mental avant ou après une session.</p>
+
+             <div class="mood-tracker">
+                 <label>Comment vous sentez-vous maintenant ? (Focus / Énergie)</label>
+                 <div class="mood-options mb-1">
+                     <button data-mood="1" title="Très faible">😩</button>
+                     <button data-mood="2" title="Faible">😟</button>
+                     <button data-mood="3" title="Moyen">😐</button>
+                     <button data-mood="4" title="Bon">🙂</button>
+                     <button data-mood="5" title="Excellent">😃</button>
+                 </div>
+                 <label for="mood-note">Note rapide (optionnel) :</label>
+                 <input type="text" id="mood-note" placeholder="Ex: Fatigué après entraînement / Prêt pour la partie !">
+                 <button id="btn-save-mood" class="success">💾 Enregistrer l'Humeur</button>
+             </div>
+
+             <h4 class="mt-2">Historique d'Humeur :</h4>
+             <ul id="mood-history-list" class="styled-list">Chargement...</ul>
+        </section>
+
+        <!-- ========== Section Aide ========== -->
+        <section id="section-aide" class="section">
+            <h2>❓ Aide & Informations</h2>
+            <p>Comprendre les outils de votre Coach Mental.</p>
+
+            <article class="mb-2">
+                <h3>🧘 Gestion de la Pression</h3>
+                <p><strong>Respiration Guidée :</strong> Synchronisez votre souffle avec les instructions visuelles (Inspirez, Retenez, Expirez). La respiration Carrée (4-4-4-4) équilibre, la Relaxante (4-7-8) calme profondément. Cliquez sur le bouton correspondant pour démarrer.</p>
+                <p><strong>Visualisation :</strong> Écrivez des scénarios où vous réussissez. Relisez-les régulièrement pour programmer votre esprit au succès.</p>
+            </article>
+
+             <article class="mb-2">
+                 <h3>💪 Confiance & Rési Résilience</h3> <!-- Rési -> Résilience -->
+                 <p><strong>Journal des Succès & Forces :</strong> Notez activement vos points positifs pour contrer le biais de négativité. Relisez-les avant les compétitions.</p>
+                 <p><strong>Analyse Post-Partie :</strong> Soyez honnête mais constructif. L'objectif est d'apprendre, pas de vous blâmer. Concentrez-vous sur les "leçons retenues" et les "actions concrètes".</p>
+             </article>
+
+             <article class="mb-2">
+                 <h3>🎯 Concentration</h3>
+                 <p><strong>Minuteur Pomodoro :</strong> Idéal pour les sessions d'étude ou d'analyse. L'alternance travail/pause optimise l'endurance mentale. Utilisez les boutons pour lancer les différents types de minuteurs (Travail, Pause Courte, Pause Longue).</p>
+                 <p><strong>Jeu Cible Rapide :</strong> Un exercice simple pour améliorer la vitesse de réaction et la concentration visuelle. Cliquez sur "Lancer le Jeu" et cliquez sur la cible rouge le plus vite possible.</p>
+             </article>
+
+            <article class="mb-2">
+                 <h3>🏁 Objectifs, ✨ Affirmations, 😊 Humeur</h3>
+                <p><strong>Objectifs :</strong> Rendez vos buts de préparation mentale concrets et mesurables.</p>
+                <p><strong>Affirmations :</strong> Utilisez le pouvoir des mots pour influencer positivement votre état d'esprit.</p>
+                <p><strong>Humeur :</strong> Suivre votre état vous aide à identifier des tendances et à mieux comprendre ce qui influence votre performance.</p>
+            </article>
+             <article>
+                 <h3>⚙️ Paramètres</h3>
+                 <p>Gérez vos données stockées localement et changez le thème de l'application.</p>
+             </article>
+        </section>
+
+         <!-- ========== Section Paramètres ========== -->
+        <section id="section-parametres" class="section">
+            <h2>⚙️ Paramètres & Gestion des Données</h2>
+
+             <h3>Thème de l'Application</h3>
+             <p>Choisissez votre apparence préférée.</p>
+             <button id="btn-set-light-theme">☀️ Thème Clair</button>
+             <button id="btn-set-dark-theme">🌙 Thème Sombre</button>
+
+             <hr class="mt-2 mb-2">
+
+            <h3>Gestion des Données Utilisateur</h3>
+            <p>Vos données (succès, analyses, etc.) sont stockées <strong>uniquement dans votre navigateur</strong> sur cet appareil. Elles ne sont pas envoyées ailleurs.</p>
+            <p>⚠️ Vider le cache de votre navigateur ou utiliser un autre appareil effacera vos données enregistrées.</p>
+
+            <div style="margin-top: 1.5rem;">
+                <button id="btn-export-data" class="secondary">📤 Exporter mes Données</button>
+                <label for="import-file-input" class="button secondary mt-1" style="cursor: pointer;">
+                    📥 Importer des Données
+                </label>
+                 <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                 <p id="import-status" style="font-size: 0.9em; margin-top: 0.5em;"></p>
+            </div>
+
+            <div style="margin-top: 2rem; border: 2px solid var(--danger-accent); padding: 1rem; border-radius: var(--border-radius);">
+                <h4 style="color: var(--danger-accent);">Zone Dangereuse</h4>
+                <p>Cette action est irréversible et supprimera toutes vos données enregistrées dans cette application.</p>
+                <button id="btn-delete-all-data" class="danger">🗑️ Supprimer Toutes Mes Données</button>
+            </div>
+        </section>
+
+
+    </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Configuration ---
+            const POMODORO_DEFAULTS = {
+                work: 25 * 60,
+                shortBreak: 5 * 60,
+                longBreak: 15 * 60
+            };
+            const DEFAULT_AFFIRMATIONS = [
+                "Je suis calme et concentré(e) sous pression.",
+                "Chaque partie est une opportunité d'apprendre.",
+                "Je fais confiance à mon intuition et à mon calcul.",
+                "Je suis capable de surmonter les défis.",
+                "Ma préparation mentale me donne un avantage.",
+                "J'aborde chaque coup avec clarté.",
+                "Je suis résilient(e) face aux erreurs et aux défaites.",
+                "Je visualise mon succès.",
+                "Mon esprit est mon meilleur atout.",
+                "Je joue avec plaisir et détermination."
+            ];
+            const MOOD_EMOJIS = { 1: '😩', 2: '😟', 3: '😐', 4: '🙂', 5: '😃' };
+
             // --- DOM Elements ---
-            const navButtons = document.querySelectorAll('#bottom-nav button');
+            const body = document.body;
+            const navButtons = document.querySelectorAll('#top-nav .nav-btn');
             const sections = document.querySelectorAll('.section');
             const mainTitle = document.getElementById('main-title');
+            const themeToggle = document.getElementById('theme-toggle');
+            const btnSetLightTheme = document.getElementById('btn-set-light-theme');
+            const btnSetDarkTheme = document.getElementById('btn-set-dark-theme');
+
+            // Accueil
+            const quoteDisplay = document.getElementById('quote-display');
 
             // Pression
             const btnBreathBox = document.getElementById('btn-breath-box');
@@ -382,12 +820,13 @@
             // Résilience
             const defeatForm = document.getElementById('defeat-analysis-form');
             const analysisList = document.getElementById('analysis-list');
+            const analysisDate = document.getElementById('analysis-date');
             const analysisOpponent = document.getElementById('analysis-opponent');
+             const analysisResult = document.getElementById('analysis-result');
             const analysisPositive = document.getElementById('analysis-positive');
             const analysisKeyMoment = document.getElementById('analysis-keymoment');
             const analysisLearning = document.getElementById('analysis-learning');
             const analysisNext = document.getElementById('analysis-next');
-
 
             // Concentration
             const focusTimerDisplay = document.getElementById('focus-timer-display');
@@ -397,380 +836,803 @@
             const btnFocusShortBreak = document.getElementById('btn-focus-short-break');
             const btnFocusLongBreak = document.getElementById('btn-focus-long-break');
             const focusStatus = document.getElementById('focus-status');
+            // Concentration Game
+            const btnStartGame = document.getElementById('btn-start-game');
+            const gameArea = document.getElementById('concentration-game-area');
+            const gameTarget = document.getElementById('game-target');
+            const gameInfo = document.getElementById('game-info');
+
+            // Objectifs
+            const goalEntry = document.getElementById('goal-entry');
+            const btnAddGoal = document.getElementById('btn-add-goal');
+            const goalList = document.getElementById('goal-list');
+
+            // Affirmations
+            const affirmationDisplay = document.getElementById('affirmation-display');
+            const btnNextAffirmation = document.getElementById('btn-next-affirmation');
+            const affirmationEntry = document.getElementById('affirmation-entry');
+            const btnAddAffirmation = document.getElementById('btn-add-affirmation');
+            const affirmationList = document.getElementById('affirmation-list');
+
+             // Humeur
+            const moodOptionsContainer = document.querySelector('.mood-options');
+            const moodNote = document.getElementById('mood-note');
+            const btnSaveMood = document.getElementById('btn-save-mood');
+            const moodHistoryList = document.getElementById('mood-history-list');
+             let selectedMood = null; // Pour stocker l'humeur sélectionnée
+
+             // Paramètres
+            const btnExportData = document.getElementById('btn-export-data');
+            const importFileInput = document.getElementById('import-file-input');
+            const importStatus = document.getElementById('import-status');
+            const btnDeleteAllData = document.getElementById('btn-delete-all-data');
+
 
             // --- State Variables ---
             let breathInterval = null;
             let breathTotalSeconds = 0;
-            let breathCycle = []; // [ { action: 'inspire', duration: 4 }, ... ]
-            let breathCurrentPhase = 0;
+            let breathCycle = [];
+            let breathCurrentPhaseIndex = 0;
             let breathPhaseTimer = 0;
 
             let focusInterval = null;
-            let focusTotalSeconds = 25 * 60; // Default Pomodoro
+            let focusTotalSeconds = POMODORO_DEFAULTS.work;
             let focusIsRunning = false;
             let focusCurrentMode = 'Travail'; // Travail, Pause Courte, Pause Longue
 
-            // --- Local Storage Helpers ---
+            // Concentration Game State
+            let gameScore = 0;
+            let gameTargetCount = 0;
+            let gameStartTime = 0;
+            let gameReactionTimes = [];
+            let gameTimeoutId = null;
+
+            // --- Local Storage Keys ---
             const STORAGE_KEYS = {
+                THEME: 'awale_mental_theme',
                 VISUALIZATION: 'awale_mental_visualization',
                 SUCCESSES: 'awale_mental_successes',
                 STRENGTHS: 'awale_mental_strengths',
-                ANALYSES: 'awale_mental_analyses'
+                ANALYSES: 'awale_mental_analyses',
+                GOALS: 'awale_mental_goals',
+                AFFIRMATIONS: 'awale_mental_affirmations',
+                MOOD_HISTORY: 'awale_mental_mood_history',
+                 // Clé unique pour regrouper toutes les données pour l'export
+                ALL_DATA: 'awale_mental_all_data'
             };
 
+             // --- Helper Functions ---
             function saveData(key, data) {
-                localStorage.setItem(key, JSON.stringify(data));
+                try {
+                    localStorage.setItem(key, JSON.stringify(data));
+                    //console.log(`Data saved for key: ${key}`);
+                } catch (e) {
+                    console.error("Error saving data to localStorage:", e);
+                    alert("Erreur lors de la sauvegarde des données. Le stockage local est peut-être plein ou indisponible.");
+                }
             }
 
             function loadData(key, defaultValue = []) {
-                const data = localStorage.getItem(key);
-                return data ? JSON.parse(data) : defaultValue;
-            }
-
-            // --- Navigation Logic ---
-            function setActiveSection(sectionId) {
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                    if (section.id === `section-${sectionId}`) {
-                        section.classList.add('active');
-                    }
-                });
-                navButtons.forEach(button => {
-                    button.classList.remove('active');
-                    if (button.dataset.section === sectionId) {
-                        button.classList.add('active');
-                        // Met à jour le titre principal
-                        mainTitle.textContent = button.textContent;
-                    }
-                });
-                // Scroll vers le haut de la page lors du changement de section
-                window.scrollTo(0, 0);
-            }
-
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const sectionId = button.dataset.section;
-                    setActiveSection(sectionId);
-                });
-            });
-
-            // --- Gestion de la Pression Logic ---
-            function stopBreathingExercise() {
-                clearInterval(breathInterval);
-                breathInterval = null;
-                visualizer.style.transform = 'scale(1)';
-                visualizer.textContent = 'Prêt ?';
-                visualizer.style.backgroundColor = 'var(--secondary-color)';
-                breathInstruction.textContent = '';
-                breathTimerDisplay.textContent = '00:00';
-                btnBreathBox.disabled = false;
-                btnBreath478.disabled = false;
-                btnBreathStop.disabled = true;
-            }
-
-            function updateBreathTimer() {
-                breathTotalSeconds++;
-                const minutes = Math.floor(breathTotalSeconds / 60);
-                const seconds = breathTotalSeconds % 60;
-                breathTimerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-                // Gérer le cycle de respiration
-                if (breathCycle.length > 0) {
-                    breathPhaseTimer--;
-                    if (breathPhaseTimer <= 0) {
-                        // Passer à la phase suivante
-                        breathCurrentPhase = (breathCurrentPhase + 1) % breathCycle.length;
-                        const phase = breathCycle[breathCurrentPhase];
-                        breathPhaseTimer = phase.duration;
-                        breathInstruction.textContent = `${phase.action} (${phase.duration}s)`;
-
-                        // Animation simple
-                        if (phase.action.toLowerCase().includes('inspire')) {
-                            visualizer.style.transform = 'scale(1.2)';
-                            visualizer.style.backgroundColor = '#2ecc71'; // Vert
-                            visualizer.textContent = 'Inspirez';
-                        } else if (phase.action.toLowerCase().includes('expire')) {
-                            visualizer.style.transform = 'scale(0.8)';
-                            visualizer.style.backgroundColor = '#e74c3c'; // Rouge doux
-                            visualizer.textContent = 'Expirez';
-                        } else { // Hold / Retenir
-                            visualizer.style.transform = 'scale(1)';
-                            visualizer.style.backgroundColor = '#f39c12'; // Orange
-                            visualizer.textContent = 'Retenez';
-                        }
-                    }
+                try {
+                    const data = localStorage.getItem(key);
+                    //console.log(`Data loaded for key ${key}:`, data);
+                    return data ? JSON.parse(data) : defaultValue;
+                } catch (e) {
+                    console.error(`Error loading data from localStorage for key ${key}:`, e);
+                    // Si erreur de parsing, retourne la valeur par défaut pour éviter de planter l'app
+                    return defaultValue;
                 }
             }
 
-            function startBreathingExercise(cycle) {
-                stopBreathingExercise(); // Arrête l'exercice précédent s'il y en a un
-                breathCycle = cycle;
-                breathCurrentPhase = -1; // Commence avant la première phase pour initialiser correctement
-                breathPhaseTimer = 0;
-                breathTotalSeconds = 0;
-                btnBreathBox.disabled = true;
-                btnBreath478.disabled = true;
-                btnBreathStop.disabled = false;
-                updateBreathTimer(); // Appelle une fois pour démarrer le cycle immédiatement
-                breathInterval = setInterval(updateBreathTimer, 1000);
-            }
-
-            btnBreathBox.addEventListener('click', () => {
-                startBreathingExercise([
-                    { action: 'Inspirez', duration: 4 },
-                    { action: 'Retenez', duration: 4 },
-                    { action: 'Expirez', duration: 4 },
-                    { action: 'Retenez', duration: 4 }
-                ]);
-            });
-
-            btnBreath478.addEventListener('click', () => {
-                startBreathingExercise([
-                    { action: 'Inspirez', duration: 4 },
-                    { action: 'Retenez', duration: 7 },
-                    { action: 'Expirez', duration: 8 }
-                ]);
-            });
-
-            btnBreathStop.addEventListener('click', stopBreathingExercise);
-
-            // Visualisation
-            btnSaveVisualization.addEventListener('click', () => {
-                saveData(STORAGE_KEYS.VISUALIZATION, visualizationText.value);
-                alert('Visualisation sauvegardée !');
-            });
-
-            btnLoadVisualization.addEventListener('click', () => {
-                visualizationText.value = loadData(STORAGE_KEYS.VISUALIZATION, '');
-                 if(!visualizationText.value) {
-                     alert('Aucune visualisation sauvegardée trouvée.');
-                 }
-            });
-
-             // Charger la visualisation au démarrage de la section (si elle existe)
-             if (document.getElementById('section-pression')) { // Vérifie que l'élément existe
-                 visualizationText.value = loadData(STORAGE_KEYS.VISUALIZATION, '');
-             }
-
-
-            // --- Confiance Logic ---
-            function renderList(listElement, data, dataKey, itemClass) {
-                listElement.innerHTML = ''; // Clear existing items
-                data.forEach((item, index) => {
-                    const li = document.createElement('li');
-                    li.classList.add(itemClass); // Ajoute une classe spécifique si besoin
-
-                    // Contenu de l'item (texte simple ou objet)
-                     if (typeof item === 'string') {
-                         li.textContent = item;
-                     } else if (typeof item === 'object' && item !== null) {
-                         // Pour l'analyse de défaite, affiche un résumé
-                          if (dataKey === STORAGE_KEYS.ANALYSES) {
-                            li.innerHTML = `<strong>${item.opponent || 'Analyse'} (${new Date(item.date).toLocaleDateString()}) :</strong><br>
-                                            Appris : <em>${item.learning || 'N/A'}</em>`;
-                         } else {
-                            // Fallback pour d'autres objets potentiels
-                            li.textContent = JSON.stringify(item).substring(0, 100) + '...';
-                         }
-
-                     }
-
-
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.textContent = 'X';
-                    deleteBtn.classList.add('delete-btn');
-                    deleteBtn.addEventListener('click', () => {
-                        if (confirm('Voulez-vous vraiment supprimer cet élément ?')) {
-                            data.splice(index, 1); // Remove item from array
-                            saveData(dataKey, data); // Save updated array
-                            renderList(listElement, data, dataKey, itemClass); // Re-render list
-                        }
-                    });
-                    li.appendChild(deleteBtn);
-                    listElement.appendChild(li);
-                });
-            }
-
-            // Succès
-            const successes = loadData(STORAGE_KEYS.SUCCESSES);
-            renderList(successList, successes, STORAGE_KEYS.SUCCESSES, 'success-item');
-
-            btnAddSuccess.addEventListener('click', () => {
-                const entry = successEntry.value.trim();
-                if (entry) {
-                    successes.push(entry);
-                    saveData(STORAGE_KEYS.SUCCESSES, successes);
-                    renderList(successList, successes, STORAGE_KEYS.SUCCESSES, 'success-item');
-                    successEntry.value = ''; // Clear input
-                } else {
-                    alert('Veuillez entrer un succès.');
-                }
-            });
-
-            // Forces
-            const strengths = loadData(STORAGE_KEYS.STRENGTHS);
-            renderList(strengthList, strengths, STORAGE_KEYS.STRENGTHS, 'strength-item');
-
-            btnAddStrength.addEventListener('click', () => {
-                const entry = strengthEntry.value.trim();
-                if (entry) {
-                    strengths.push(entry);
-                    saveData(STORAGE_KEYS.STRENGTHS, strengths);
-                    renderList(strengthList, strengths, STORAGE_KEYS.STRENGTHS, 'strength-item');
-                    strengthEntry.value = ''; // Clear input
-                } else {
-                    alert('Veuillez entrer une force.');
-                }
-            });
-
-
-             // --- Résilience Logic ---
-             const analyses = loadData(STORAGE_KEYS.ANALYSES);
-             renderList(analysisList, analyses, STORAGE_KEYS.ANALYSES, 'analysis-item');
-
-             defeatForm.addEventListener('submit', (e) => {
-                 e.preventDefault(); // Empêche le rechargement de la page
-
-                 const analysisData = {
-                    date: new Date().toISOString(), // Ajoute une date
-                    opponent: analysisOpponent.value.trim(),
-                    positive: analysisPositive.value.trim(),
-                    keyMoment: analysisKeyMoment.value.trim(),
-                    learning: analysisLearning.value.trim(),
-                    nextSteps: analysisNext.value.trim()
-                 };
-
-                 // Vérifie au moins qu'un champ est rempli (optionnel mais utile)
-                 if (!analysisData.opponent && !analysisData.positive && !analysisData.keyMoment && !analysisData.learning && !analysisData.nextSteps) {
-                    alert("Veuillez remplir au moins un champ de l'analyse.");
-                    return;
-                 }
-
-
-                 analyses.unshift(analysisData); // Ajoute au début de la liste
-                 saveData(STORAGE_KEYS.ANALYSES, analyses);
-                 renderList(analysisList, analyses, STORAGE_KEYS.ANALYSES, 'analysis-item');
-
-                 // Réinitialise le formulaire
-                 defeatForm.reset();
-
-                 alert("Analyse sauvegardée !");
-             });
-
-
-            // --- Concentration Logic ---
              function formatTime(seconds) {
                  const mins = Math.floor(seconds / 60);
                  const secs = seconds % 60;
                  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
              }
 
-            function updateFocusTimer() {
-                if (focusTotalSeconds > 0) {
-                    focusTotalSeconds--;
-                    focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
-                } else {
-                    // Timer finished
-                    clearInterval(focusInterval);
-                    focusInterval = null;
-                    focusIsRunning = false;
-                    focusTimerDisplay.textContent = "00:00";
-                    focusStatus.textContent = `${focusCurrentMode} terminé !`;
-                    alert(`${focusCurrentMode} terminé !`);
-                    // Réactiver les boutons de démarrage
-                    enableFocusStartButtons();
-                    // Peut-être jouer un son ici (nécessite interaction utilisateur préalable)
-                    // try { new Audio('path/to/sound.mp3').play(); } catch(e) { console.warn("Audio playback failed", e); }
+             // Fonction générique pour rendre des listes stylées
+             // `data` est un tableau d'objets
+             // `listElement` est l'élément UL
+             // `renderItemFn` est une fonction qui prend un item et retourne le contenu HTML du LI (sans la balise LI elle-même)
+             // `storageKey` est la clé pour la sauvegarde après suppression/modification
+             // `options` peut contenir { deletable: true, completable: true, itemClass: '...' }
+             function renderStyledList(data, listElement, renderItemFn, storageKey, options = {}) {
+                 if (!listElement) {
+                     console.warn(`List element not found for key ${storageKey}`);
+                     return;
+                 }
+                 listElement.innerHTML = ''; // Clear previous items
+                 if (data.length === 0) {
+                     listElement.innerHTML = '<li>Aucun élément à afficher.</li>';
+                     return;
+                 }
+
+                 data.forEach((item, index) => {
+                     const li = document.createElement('li');
+                     if (options.itemClass) li.classList.add(options.itemClass);
+                     if (item.completed && options.completable) li.classList.add('completed');
+
+                      // Contenu principal de l'item
+                     const contentDiv = document.createElement('div');
+                     contentDiv.classList.add('list-item-content');
+                     contentDiv.innerHTML = renderItemFn(item); // Appel de la fonction de rendu spécifique
+                     li.appendChild(contentDiv);
+
+                     // Conteneur pour les boutons d'action
+                     const actionsDiv = document.createElement('div');
+                     actionsDiv.classList.add('list-item-actions');
+
+                      // Bouton Compléter/Décompléter
+                     if (options.completable) {
+                         const completeBtn = document.createElement('button');
+                         completeBtn.textContent = item.completed ? '✅' : '⬜'; // Ou 'Réactiver' / 'Terminer'
+                         completeBtn.title = item.completed ? "Marquer comme non terminé" : "Marquer comme terminé";
+                         completeBtn.classList.add('complete-btn', 'secondary'); // Utilise une classe plus neutre
+                         completeBtn.addEventListener('click', () => {
+                             item.completed = !item.completed;
+                             saveData(storageKey, data);
+                             renderStyledList(data, listElement, renderItemFn, storageKey, options); // Re-render
+                         });
+                         actionsDiv.appendChild(completeBtn);
+                     }
+
+                     // Bouton Supprimer
+                     if (options.deletable !== false) { // Deletable par défaut
+                         const deleteBtn = document.createElement('button');
+                         deleteBtn.textContent = '❌'; // Ou 'Suppr.'
+                         deleteBtn.title = "Supprimer cet élément";
+                         deleteBtn.classList.add('delete-btn', 'danger');
+                         deleteBtn.addEventListener('click', () => {
+                             if (confirm('Voulez-vous vraiment supprimer cet élément ?')) {
+                                 data.splice(index, 1);
+                                 saveData(storageKey, data);
+                                 renderStyledList(data, listElement, renderItemFn, storageKey, options); // Re-render
+                             }
+                         });
+                         actionsDiv.appendChild(deleteBtn);
+                     }
+
+
+                     li.appendChild(actionsDiv);
+                     listElement.appendChild(li);
+                 });
+             }
+
+
+            // --- Navigation Logic ---
+            function setActiveSection(sectionId) {
+                //console.log(`Activating section: ${sectionId}`);
+                let foundSection = false;
+                sections.forEach(section => {
+                    const isActive = section.id === `section-${sectionId}`;
+                    section.classList.toggle('active', isActive);
+                    if (isActive) foundSection = true;
+                });
+
+                if (!foundSection) {
+                    console.warn(`Section with id "section-${sectionId}" not found. Activating accueil.`);
+                    setActiveSection('accueil'); // Fallback vers l'accueil
+                    return;
                 }
+
+                navButtons.forEach(button => {
+                    const isActive = button.dataset.section === sectionId;
+                    button.classList.toggle('active', isActive);
+                     if (isActive) {
+                         // Met à jour le titre principal (en retirant l'emoji si présent)
+                         mainTitle.textContent = button.textContent.replace(/^[^\w]+/, '').trim();
+                     }
+                });
+                window.scrollTo(0, 0); // Scroll vers le haut
             }
 
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (!button.dataset.section) {
+                        console.error("Button missing data-section attribute:", button);
+                        return;
+                    }
+                    setActiveSection(button.dataset.section);
+                });
+            });
+
+            // --- Theme Management ---
+            function applyTheme(theme) {
+                body.dataset.theme = theme;
+                saveData(STORAGE_KEYS.THEME, theme);
+                 themeToggle.textContent = theme === 'light' ? '🌙 Sombre' : '☀️ Clair';
+                 console.log(`Theme applied: ${theme}`);
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = body.dataset.theme || 'light';
+                applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+            });
+            // Boutons dédiés dans les paramètres
+             btnSetLightTheme.addEventListener('click', () => applyTheme('light'));
+             btnSetDarkTheme.addEventListener('click', () => applyTheme('dark'));
+
+            // Load initial theme
+            const savedTheme = loadData(STORAGE_KEYS.THEME, 'light');
+            applyTheme(savedTheme);
+
+             // --- Gestion de la Pression Logic ---
+             function stopBreathingExercise() {
+                 clearInterval(breathInterval);
+                 breathInterval = null;
+                 visualizer.style.transform = 'scale(1)';
+                 visualizer.style.backgroundColor = 'var(--primary-accent)'; // Couleur de base
+                 breathInstruction.textContent = 'Prêt ?';
+                 breathTimerDisplay.textContent = '00:00';
+                 // Réactive les boutons de démarrage, désactive stop
+                 btnBreathBox.disabled = false;
+                 btnBreath478.disabled = false;
+                 btnBreathStop.disabled = true;
+                 console.log("Breathing exercise stopped.");
+             }
+
+             function updateBreathVisuals(phase) {
+                 breathInstruction.textContent = `${phase.action} (${phase.duration}s)`;
+                 visualizer.style.backgroundColor = `var(--${phase.color || 'primary-accent'})`;
+                 visualizer.style.transform = `scale(${phase.scale || 1})`;
+             }
+
+            function updateBreathTimer() {
+                 breathTotalSeconds++;
+                 breathTimerDisplay.textContent = formatTime(breathTotalSeconds);
+
+                 if (breathCycle.length > 0) {
+                     breathPhaseTimer--;
+                     if (breathPhaseTimer <= 0) {
+                         // Next phase
+                         breathCurrentPhaseIndex = (breathCurrentPhaseIndex + 1) % breathCycle.length;
+                         const currentPhase = breathCycle[breathCurrentPhaseIndex];
+                         breathPhaseTimer = currentPhase.duration;
+                         updateBreathVisuals(currentPhase);
+                         //console.log(`Phase: ${currentPhase.action}, Duration: ${currentPhase.duration}`);
+                     }
+                 }
+             }
+
+             function startBreathingExercise(cycle) {
+                 console.log("Starting breathing exercise:", cycle.map(p => p.action));
+                 stopBreathingExercise(); // Ensure any previous one is stopped
+                 breathCycle = cycle;
+                 breathCurrentPhaseIndex = -1; // Will be incremented to 0 on first tick
+                 breathPhaseTimer = 1; // Start immediately
+                 breathTotalSeconds = -1; // Will be incremented to 0 on first tick
+
+                 // Disable start buttons, enable stop button
+                 btnBreathBox.disabled = true;
+                 btnBreath478.disabled = true;
+                 btnBreathStop.disabled = false;
+
+                 updateBreathTimer(); // Initial call to set first phase
+                 breathInterval = setInterval(updateBreathTimer, 1000);
+             }
+
+             btnBreathBox.addEventListener('click', () => {
+                 startBreathingExercise([
+                     { action: 'Inspirez', duration: 4, scale: 1.2, color: 'success-accent' },
+                     { action: 'Retenez', duration: 4, scale: 1.2, color: 'warning-accent' },
+                     { action: 'Expirez', duration: 4, scale: 0.8, color: 'secondary-accent' },
+                     { action: 'Retenez', duration: 4, scale: 0.8, color: 'warning-accent' }
+                 ]);
+             });
+
+             btnBreath478.addEventListener('click', () => {
+                 startBreathingExercise([
+                     { action: 'Inspirez', duration: 4, scale: 1.2, color: 'success-accent' },
+                     { action: 'Retenez', duration: 7, scale: 1.2, color: 'warning-accent' },
+                     { action: 'Expirez', duration: 8, scale: 0.8, color: 'secondary-accent' }
+                 ]);
+             });
+
+             btnBreathStop.addEventListener('click', stopBreathingExercise);
+
+             // Visualisation
+             btnSaveVisualization.addEventListener('click', () => {
+                 saveData(STORAGE_KEYS.VISUALIZATION, visualizationText.value);
+                 alert('Visualisation sauvegardée !');
+             });
+             btnLoadVisualization.addEventListener('click', () => {
+                 const loadedText = loadData(STORAGE_KEYS.VISUALIZATION, '');
+                 visualizationText.value = loadedText;
+                  if(!loadedText) alert('Aucune visualisation sauvegardée trouvée.');
+             });
+             // Load visualization on section activation
+              // (Moved to the loadAllData function for consistency)
+
+
+            // --- Confiance Logic ---
+            // Succès (tableau de strings)
+            function renderSuccessItem(item) { return item; } // Simple string item
+            function loadAndRenderSuccesses() {
+                const successes = loadData(STORAGE_KEYS.SUCCESSES, []);
+                renderStyledList(successes, successList, renderSuccessItem, STORAGE_KEYS.SUCCESSES, { deletable: true, itemClass: 'success-item' });
+            }
+            btnAddSuccess.addEventListener('click', () => {
+                const entry = successEntry.value.trim();
+                if (entry) {
+                    const successes = loadData(STORAGE_KEYS.SUCCESSES, []);
+                    successes.unshift(entry); // Add to beginning
+                    saveData(STORAGE_KEYS.SUCCESSES, successes);
+                    renderStyledList(successes, successList, renderSuccessItem, STORAGE_KEYS.SUCCESSES, { deletable: true, itemClass: 'success-item' });
+                    successEntry.value = '';
+                } else { alert('Veuillez entrer un succès.'); }
+            });
+
+            // Forces (tableau de strings)
+            function renderStrengthItem(item) { return item; } // Simple string item
+            function loadAndRenderStrengths() {
+                 const strengths = loadData(STORAGE_KEYS.STRENGTHS, []);
+                 renderStyledList(strengths, strengthList, renderStrengthItem, STORAGE_KEYS.STRENGTHS, { deletable: true, itemClass: 'strength-item' });
+            }
+            btnAddStrength.addEventListener('click', () => {
+                const entry = strengthEntry.value.trim();
+                if (entry) {
+                    const strengths = loadData(STORAGE_KEYS.STRENGTHS, []);
+                    strengths.unshift(entry);
+                    saveData(STORAGE_KEYS.STRENGTHS, strengths);
+                    renderStyledList(strengths, strengthList, renderStrengthItem, STORAGE_KEYS.STRENGTHS, { deletable: true, itemClass: 'strength-item' });
+                    strengthEntry.value = '';
+                } else { alert('Veuillez entrer une force.'); }
+            });
+
+
+            // --- Résilience Logic ---
+            // Analyses (tableau d'objets)
+            function renderAnalysisItem(item) {
+                 // Format date nicely
+                 const date = item.date ? new Date(item.date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date inconnue';
+                 return `<strong>${item.opponent || 'Analyse'} (${date})</strong> - ${item.result || ''}<br>
+                         <em>Apprentissage clé : ${item.learning || 'Non spécifié'}</em>`;
+            }
+             function loadAndRenderAnalyses() {
+                 const analyses = loadData(STORAGE_KEYS.ANALYSES, []);
+                 renderStyledList(analyses, analysisList, renderAnalysisItem, STORAGE_KEYS.ANALYSES, { deletable: true, itemClass: 'analysis-item' });
+             }
+
+             defeatForm.addEventListener('submit', (e) => {
+                 e.preventDefault();
+                  if (!analysisDate.value) {
+                     alert("Veuillez sélectionner une date pour l'analyse.");
+                     analysisDate.focus();
+                     return;
+                  }
+
+                 const analysisData = {
+                     id: Date.now(), // Simple unique ID
+                     date: analysisDate.value,
+                     opponent: analysisOpponent.value.trim(),
+                     result: analysisResult.value.trim(),
+                     positive: analysisPositive.value.trim(),
+                     keyMoment: analysisKeyMoment.value.trim(),
+                     learning: analysisLearning.value.trim(),
+                     nextSteps: analysisNext.value.trim()
+                 };
+
+                 const analyses = loadData(STORAGE_KEYS.ANALYSES, []);
+                 analyses.unshift(analysisData); // Add to beginning
+                 saveData(STORAGE_KEYS.ANALYSES, analyses);
+                 renderStyledList(analyses, analysisList, renderAnalysisItem, STORAGE_KEYS.ANALYSES, { deletable: true, itemClass: 'analysis-item' });
+                 defeatForm.reset();
+                 alert("Analyse sauvegardée !");
+             });
+
+             // Set default date to today for analysis form
+             analysisDate.valueAsDate = new Date();
+
+
+             // --- Concentration: Pomodoro Logic ---
+             function enableFocusStartButtons() {
+                 btnFocusStart.disabled = false;
+                 btnFocusShortBreak.disabled = false;
+                 btnFocusLongBreak.disabled = false;
+                 btnFocusPause.textContent = '⏯️ Pause/Rep.'; // Reset pause button text
+                 btnFocusPause.disabled = true; // Disable pause when no timer is running
+             }
+             function disableFocusStartButtons() {
+                 btnFocusStart.disabled = true;
+                 btnFocusShortBreak.disabled = true;
+                 btnFocusLongBreak.disabled = true;
+                 btnFocusPause.disabled = false; // Enable pause when timer is running
+             }
+
+             function updateFocusTimer() {
+                 if (focusTotalSeconds > 0) {
+                     focusTotalSeconds--;
+                     focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
+                 } else {
+                     clearInterval(focusInterval);
+                     focusInterval = null;
+                     focusIsRunning = false;
+                     focusTimerDisplay.textContent = "00:00";
+                     focusStatus.textContent = `🏁 ${focusCurrentMode} terminé ! Prêt pour la suite.`;
+                     enableFocusStartButtons();
+                     alert(`${focusCurrentMode} terminé !`);
+                     // Ajouter une notification visuelle ou sonore ici si désiré
+                 }
+             }
+
              function startFocusTimer(durationSeconds, mode) {
-                 clearInterval(focusInterval); // Clear any existing timer
+                 console.log(`Starting Pomodoro: ${mode} (${durationSeconds}s)`);
+                 clearInterval(focusInterval);
                  focusTotalSeconds = durationSeconds;
                  focusCurrentMode = mode;
                  focusIsRunning = true;
                  focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
-                 focusStatus.textContent = `${mode} en cours...`;
-                 focusInterval = setInterval(updateFocusTimer, 1000);
-                 // Désactiver les boutons de démarrage pendant que le timer tourne
+                 focusStatus.textContent = `⏳ ${mode} en cours...`;
                  disableFocusStartButtons();
+                 focusInterval = setInterval(updateFocusTimer, 1000);
              }
 
-             function pauseFocusTimer() {
+             function toggleFocusPause() {
+                 if (!focusInterval && !focusIsRunning && focusTotalSeconds <= 0) return; // Ne rien faire si le timer est fini
+
                  if (focusIsRunning) {
+                     // Pause
                      clearInterval(focusInterval);
                      focusInterval = null;
                      focusIsRunning = false;
-                     focusStatus.textContent += " (En pause)";
-                 }
-             }
-
-             function resumeFocusTimer() {
-                 if (!focusIsRunning && focusTotalSeconds > 0 && !focusInterval) {
+                     focusStatus.textContent += " (⏸️ En pause)";
+                     btnFocusPause.textContent = '▶️ Reprendre';
+                     console.log("Pomodoro paused.");
+                 } else {
+                     // Resume
                      focusIsRunning = true;
-                     focusStatus.textContent = `${focusCurrentMode} en cours...`;
+                     focusStatus.textContent = `⏳ ${focusCurrentMode} en cours...`; // Restore status
+                     btnFocusPause.textContent = '⏯️ Pause/Rep.';
                      focusInterval = setInterval(updateFocusTimer, 1000);
+                     console.log("Pomodoro resumed.");
                  }
              }
 
-             function resetFocusTimer(defaultSeconds = 25 * 60, defaultMode = 'Travail') {
+             function resetFocusTimer(defaultSeconds = POMODORO_DEFAULTS.work, defaultMode = 'Travail') {
+                 console.log("Resetting Pomodoro timer.");
                  clearInterval(focusInterval);
                  focusInterval = null;
                  focusIsRunning = false;
                  focusTotalSeconds = defaultSeconds;
                  focusCurrentMode = defaultMode;
                  focusTimerDisplay.textContent = formatTime(focusTotalSeconds);
-                 focusStatus.textContent = "Prêt à démarrer.";
+                 focusStatus.textContent = "Prêt à démarrer une session.";
                  enableFocusStartButtons();
              }
 
-             function disableFocusStartButtons() {
-                 btnFocusStart.disabled = true;
-                 btnFocusShortBreak.disabled = true;
-                 btnFocusLongBreak.disabled = true;
+             btnFocusStart.addEventListener('click', () => startFocusTimer(POMODORO_DEFAULTS.work, 'Travail'));
+             btnFocusShortBreak.addEventListener('click', () => startFocusTimer(POMODORO_DEFAULTS.shortBreak, 'Pause Courte'));
+             btnFocusLongBreak.addEventListener('click', () => startFocusTimer(POMODORO_DEFAULTS.longBreak, 'Pause Longue'));
+             btnFocusPause.addEventListener('click', toggleFocusPause);
+             btnFocusReset.addEventListener('click', () => resetFocusTimer());
+
+             // --- Concentration: Game Logic ---
+             function showTarget() {
+                 const areaRect = gameArea.getBoundingClientRect();
+                 const targetSize = 40; // Doit correspondre au CSS
+                 // Position aléatoire, en s'assurant qu'elle reste dans les limites
+                 const top = Math.random() * (areaRect.height - targetSize);
+                 const left = Math.random() * (areaRect.width - targetSize);
+
+                 gameTarget.style.top = `${top}px`;
+                 gameTarget.style.left = `${left}px`;
+                 gameTarget.style.display = 'block';
+                 gameStartTime = Date.now(); // Démarrer le chrono pour cette cible
              }
-             function enableFocusStartButtons() {
-                 btnFocusStart.disabled = false;
-                 btnFocusShortBreak.disabled = false;
-                 btnFocusLongBreak.disabled = false;
+
+             function targetClicked() {
+                 if (!gameStartTime) return; // Évite les clics multiples
+
+                 const reactionTime = Date.now() - gameStartTime;
+                 gameReactionTimes.push(reactionTime);
+                 gameScore++;
+                 gameTargetCount--;
+                 gameTarget.style.display = 'none'; // Cacher la cible
+                 gameStartTime = 0; // Réinitialiser pour la prochaine cible
+
+                 updateGameInfo();
+
+                 if (gameTargetCount > 0) {
+                      // Délai aléatoire avant la prochaine cible
+                     clearTimeout(gameTimeoutId); // Clear previous timeout if any
+                     gameTimeoutId = setTimeout(showTarget, Math.random() * 1500 + 500); // Entre 0.5 et 2 secondes
+                 } else {
+                     // Fin du jeu
+                     btnStartGame.disabled = false;
+                     btnStartGame.textContent = "🚀 Relancer le Jeu (10 cibles)";
+                     const avgTime = gameReactionTimes.reduce((a, b) => a + b, 0) / gameReactionTimes.length;
+                     gameInfo.textContent += ` | Jeu Terminé ! Temps Moyen : ${avgTime.toFixed(0)} ms`;
+                     alert(`Jeu terminé !\nScore : ${gameScore}/10\nTemps de réaction moyen : ${avgTime.toFixed(0)} ms`);
+                 }
              }
 
+             function updateGameInfo() {
+                 const avgTime = gameReactionTimes.length > 0 ? (gameReactionTimes.reduce((a, b) => a + b, 0) / gameReactionTimes.length).toFixed(0) : 'N/A';
+                 gameInfo.textContent = `Score : ${gameScore} | Cibles restantes : ${gameTargetCount} | Temps moyen : ${avgTime} ms`;
+             }
 
-             btnFocusStart.addEventListener('click', () => startFocusTimer(25 * 60, 'Travail'));
-             btnFocusShortBreak.addEventListener('click', () => startFocusTimer(5 * 60, 'Pause Courte'));
-             btnFocusLongBreak.addEventListener('click', () => startFocusTimer(15 * 60, 'Pause Longue'));
+             function startGame() {
+                 console.log("Starting concentration game.");
+                 gameScore = 0;
+                 gameTargetCount = 10; // Nombre de cibles
+                 gameReactionTimes = [];
+                 gameStartTime = 0;
+                 btnStartGame.disabled = true;
+                 btnStartGame.textContent = "🕹️ Jeu en cours...";
+                 updateGameInfo();
+                 clearTimeout(gameTimeoutId); // Clear previous timeout
+                 gameTimeoutId = setTimeout(showTarget, 1000); // Première cible après 1s
+             }
 
-             btnFocusPause.addEventListener('click', () => {
-                 if (focusIsRunning) {
-                     pauseFocusTimer();
-                     btnFocusPause.textContent = 'Reprendre';
-                 } else if(focusTotalSeconds > 0){ // Ne pas reprendre si le temps est écoulé
-                     resumeFocusTimer();
-                     btnFocusPause.textContent = 'Pause';
+             btnStartGame.addEventListener('click', startGame);
+             gameTarget.addEventListener('click', targetClicked);
+
+             // --- Objectifs Logic ---
+             // Objectifs (tableau d'objets { id, text, completed })
+              function renderGoalItem(item) { return item.text; }
+              function loadAndRenderGoals() {
+                  const goals = loadData(STORAGE_KEYS.GOALS, []);
+                  renderStyledList(goals, goalList, renderGoalItem, STORAGE_KEYS.GOALS, {
+                      deletable: true,
+                      completable: true, // Active la fonctionnalité de complétion
+                      itemClass: 'goal-item'
+                  });
+              }
+
+              btnAddGoal.addEventListener('click', () => {
+                  const text = goalEntry.value.trim();
+                  if (text) {
+                      const goals = loadData(STORAGE_KEYS.GOALS, []);
+                      const newGoal = { id: Date.now(), text: text, completed: false };
+                      goals.unshift(newGoal);
+                      saveData(STORAGE_KEYS.GOALS, goals);
+                      loadAndRenderGoals(); // Re-render
+                      goalEntry.value = '';
+                  } else { alert('Veuillez entrer un objectif.'); }
+              });
+
+             // --- Affirmations Logic ---
+              function renderAffirmationItem(item) { return item.text; } // Objet { id, text }
+              function loadAndRenderAffirmations() {
+                  const userAffirmations = loadData(STORAGE_KEYS.AFFIRMATIONS, []);
+                  renderStyledList(userAffirmations, affirmationList, renderAffirmationItem, STORAGE_KEYS.AFFIRMATIONS, { deletable: true, itemClass: 'affirmation-item' });
+                  showRandomAffirmation(); // Met à jour l'affichage principal
+              }
+
+             function showRandomAffirmation() {
+                 const userAffirmations = loadData(STORAGE_KEYS.AFFIRMATIONS, []);
+                 const allAffirmations = [...DEFAULT_AFFIRMATIONS, ...userAffirmations.map(a => a.text)];
+                 if (allAffirmations.length > 0) {
+                     const randomIndex = Math.floor(Math.random() * allAffirmations.length);
+                     affirmationDisplay.textContent = `"${allAffirmations[randomIndex]}"`;
+                 } else {
+                     affirmationDisplay.textContent = "Ajoutez vos propres affirmations !";
+                 }
+             }
+
+             btnAddAffirmation.addEventListener('click', () => {
+                 const text = affirmationEntry.value.trim();
+                 if (text) {
+                     const userAffirmations = loadData(STORAGE_KEYS.AFFIRMATIONS, []);
+                      // Vérifier si l'affirmation existe déjà (optionnel)
+                      if (userAffirmations.some(a => a.text.toLowerCase() === text.toLowerCase())) {
+                          alert("Cette affirmation existe déjà.");
+                          return;
+                      }
+                     const newAffirmation = { id: Date.now(), text: text };
+                     userAffirmations.unshift(newAffirmation);
+                     saveData(STORAGE_KEYS.AFFIRMATIONS, userAffirmations);
+                     loadAndRenderAffirmations(); // Re-render list and potentially update main display
+                     affirmationEntry.value = '';
+                 } else { alert('Veuillez entrer une affirmation.'); }
+             });
+
+             btnNextAffirmation.addEventListener('click', showRandomAffirmation);
+
+
+            // --- Humeur Logic ---
+            function renderMoodItem(item) {
+                const date = new Date(item.timestamp).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' });
+                const emoji = MOOD_EMOJIS[item.mood] || '❓';
+                return `${emoji} (${item.mood}/5) - <strong>${date}</strong><br><em>${item.note || 'Aucune note'}</em>`;
+            }
+
+             function loadAndRenderMoodHistory() {
+                 const history = loadData(STORAGE_KEYS.MOOD_HISTORY, []);
+                 // Trie l'historique par date décroissante (plus récent en premier)
+                 history.sort((a, b) => b.timestamp - a.timestamp);
+                 renderStyledList(history, moodHistoryList, renderMoodItem, STORAGE_KEYS.MOOD_HISTORY, { deletable: true, itemClass: 'mood-item' });
+             }
+
+             // Gérer la sélection d'humeur visuellement
+             moodOptionsContainer.addEventListener('click', (e) => {
+                 if (e.target.tagName === 'BUTTON' && e.target.dataset.mood) {
+                     // Désélectionner les autres
+                     moodOptionsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+                     // Sélectionner le bouton cliqué
+                     e.target.classList.add('selected');
+                     selectedMood = parseInt(e.target.dataset.mood, 10);
+                     console.log("Mood selected:", selectedMood);
                  }
              });
 
-             btnFocusReset.addEventListener('click', () => resetFocusTimer()); // Reset au Pomodoro par défaut
+             btnSaveMood.addEventListener('click', () => {
+                 if (selectedMood === null) {
+                     alert("Veuillez sélectionner une humeur (cliquez sur un emoji).");
+                     return;
+                 }
+                 const note = moodNote.value.trim();
+                 const moodEntry = {
+                     id: Date.now(),
+                     timestamp: Date.now(),
+                     mood: selectedMood,
+                     note: note
+                 };
 
-             // Initialiser l'affichage du timer focus
-             resetFocusTimer();
+                 const history = loadData(STORAGE_KEYS.MOOD_HISTORY, []);
+                 history.push(moodEntry); // Ajoute à la fin, sera trié à l'affichage
+                 saveData(STORAGE_KEYS.MOOD_HISTORY, history);
+                 loadAndRenderMoodHistory(); // Re-render
+
+                 // Réinitialiser la sélection
+                 moodOptionsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+                 selectedMood = null;
+                 moodNote.value = '';
+                 alert("Humeur enregistrée !");
+             });
+
+             // --- Paramètres: Data Management ---
+             function getAllAppData() {
+                 const allData = {};
+                 for (const key in STORAGE_KEYS) {
+                      // Exclut la clé ALL_DATA elle-même et le thème pour l'export/import de *contenu*
+                     if (key !== 'ALL_DATA' && key !== 'THEME') {
+                          // Utilise la clé courte comme nom dans l'objet JSON
+                         allData[STORAGE_KEYS[key]] = loadData(STORAGE_KEYS[key], (key === 'VISUALIZATION' ? '' : [])); // Gère valeur par défaut string ou array
+                     }
+                 }
+                 return allData;
+             }
+
+            btnExportData.addEventListener('click', () => {
+                 try {
+                     const dataToExport = getAllAppData();
+                     const dataStr = JSON.stringify(dataToExport, null, 2); // Pretty print JSON
+                     const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                     const url = URL.createObjectURL(dataBlob);
+                     const link = document.createElement('a');
+                     link.href = url;
+                     const timestamp = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+                     link.download = `awale_mental_data_${timestamp}.json`;
+                     document.body.appendChild(link);
+                     link.click();
+                     document.body.removeChild(link);
+                     URL.revokeObjectURL(url);
+                     console.log("Data exported successfully.");
+                     alert("Données exportées avec succès sous forme de fichier JSON.");
+                 } catch (e) {
+                     console.error("Error exporting data:", e);
+                     alert("Une erreur est survenue lors de l'exportation des données.");
+                 }
+             });
+
+             importFileInput.addEventListener('change', (event) => {
+                 const file = event.target.files[0];
+                 if (!file) {
+                     importStatus.textContent = "Aucun fichier sélectionné.";
+                     return;
+                 }
+                 if (file.type !== 'application/json') {
+                      importStatus.textContent = "Erreur : Le fichier doit être au format JSON.";
+                      return;
+                 }
+
+                 const reader = new FileReader();
+                 reader.onload = (e) => {
+                     try {
+                         const importedData = JSON.parse(e.target.result);
+                         console.log("Data read from file:", importedData);
+
+                         // Valider et importer les données
+                         let importedCount = 0;
+                         let skippedCount = 0;
+                         for (const key in importedData) {
+                             // Vérifie si la clé importée correspond à une clé attendue
+                             if (Object.values(STORAGE_KEYS).includes(key)) {
+                                  // Valider le type de données (simple vérification)
+                                  const expectedType = (key === STORAGE_KEYS.VISUALIZATION) ? 'string' : 'object'; // Array is an object
+                                  if ( (typeof importedData[key] === expectedType) || (expectedType === 'object' && Array.isArray(importedData[key]) ) ) {
+                                        saveData(key, importedData[key]);
+                                        importedCount++;
+                                  } else {
+                                      console.warn(`Skipping import for key ${key}: unexpected data type ${typeof importedData[key]}. Expected ${expectedType}.`);
+                                      skippedCount++;
+                                  }
+
+                             } else {
+                                 console.warn(`Skipping import for unknown key: ${key}`);
+                                 skippedCount++;
+                             }
+                         }
+
+                         importStatus.textContent = `Importation terminée. ${importedCount} ensemble(s) de données importé(s), ${skippedCount} ignoré(s). Rechargez l'application pour voir les changements.`;
+                         alert("Données importées ! Il est recommandé de rafraîchir la page (F5) pour appliquer tous les changements.");
+                         // Réinitialiser l'input pour permettre de réimporter le même fichier si besoin
+                         importFileInput.value = null;
+                          // Recharger toutes les données affichées
+                          loadAllData();
+
+                     } catch (err) {
+                         console.error("Error parsing imported JSON:", err);
+                         importStatus.textContent = "Erreur : Impossible de lire le fichier JSON. Est-il valide ?";
+                         alert("Erreur lors de la lecture du fichier JSON. Assurez-vous qu'il est correctement formaté.");
+                     }
+                 };
+                 reader.onerror = () => {
+                      console.error("Error reading file");
+                      importStatus.textContent = "Erreur lors de la lecture du fichier.";
+                      alert("Une erreur s'est produite lors de la lecture du fichier.");
+                 };
+                 reader.readAsText(file);
+             });
 
 
-            // --- Initialisation ---
-            setActiveSection('accueil'); // Affiche la section accueil au chargement
+            btnDeleteAllData.addEventListener('click', () => {
+                if (confirm("⚠️ ATTENTION ! Êtes-vous absolument sûr(e) de vouloir supprimer TOUTES vos données ? Cette action est IRRÉVERSIBLE.")) {
+                    if (confirm("Seconde confirmation : Vraiment sûr(e) ? Toutes vos analyses, succès, objectifs, etc., seront perdus.")) {
+                        console.warn("Deleting all user data from localStorage...");
+                        let deletedCount = 0;
+                         for (const key in STORAGE_KEYS) {
+                             // Ne supprime pas la clé du thème pour garder la préférence
+                             if (key !== 'THEME' && key !== 'ALL_DATA') {
+                                 localStorage.removeItem(STORAGE_KEYS[key]);
+                                 deletedCount++;
+                             }
+                         }
+                        console.log(`${deletedCount} data keys removed.`);
+                        alert("Toutes les données ont été supprimées. L'application va se recharger.");
+                        // Recharger l'application pour refléter les changements
+                        location.reload();
+                    }
+                }
+            });
 
-            // Optionnel: Définir une citation d'accueil aléatoire ou fixe
-            const quotes = [
-                "La force mentale distingue les champions.",
-                "La patience est une vertu clé à l'Awalé.",
-                "Chaque partie est une leçon.",
-                "Concentrez-vous sur le coup présent, pas sur l'erreur passée.",
-                "La confiance se construit à l'entraînement."
-            ];
-            const quoteDisplay = document.getElementById('quote-display');
-            if (quoteDisplay) {
-                quoteDisplay.textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
-            }
+             // --- Initialisation & Chargement des Données ---
+             function loadAllData() {
+                 console.log("Loading all initial data...");
+                 // Accueil
+                 showRandomAffirmation(); // Pour la citation du jour
+
+                  // Pression
+                 visualizationText.value = loadData(STORAGE_KEYS.VISUALIZATION, '');
+
+                 // Confiance
+                 loadAndRenderSuccesses();
+                 loadAndRenderStrengths();
+
+                 // Résilience
+                 loadAndRenderAnalyses();
+
+                 // Concentration (Pomodoro & Game)
+                 resetFocusTimer(); // Initialise l'affichage Pomodoro
+                 updateGameInfo(); // Initialise l'affichage du jeu
+
+                 // Objectifs
+                 loadAndRenderGoals();
+
+                 // Affirmations
+                 loadAndRenderAffirmations(); // Charge la liste et affiche une aléatoire
+
+                 // Humeur
+                 loadAndRenderMoodHistory();
+
+                 // Set default active section
+                 setActiveSection('accueil');
+                 console.log("Initial data load complete.");
+             }
+
+             // Execute initial load
+             loadAllData();
 
         }); // Fin DOMContentLoaded
     </script>
